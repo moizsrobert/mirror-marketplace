@@ -1,10 +1,10 @@
-package com.mirrors.mirrorsbackend;
+package mirrors.mirrorsbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MirrorsBackendApplicationTests {
+class MirrorsApplicationTests {
 
     @Test
     void contextLoads() {
