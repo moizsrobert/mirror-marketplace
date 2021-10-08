@@ -1,4 +1,4 @@
-package mirrors.mirrorsbackend.login;
+package mirrors.mirrorsbackend.credential;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,42 +8,42 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LoginDataAccessService {
+public class CredentialDataAccessService {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public LoginDataAccessService(JdbcTemplate jdbcTemplate) {
+    public CredentialDataAccessService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    protected List<Login> selectAllLogins() {
+    protected List<Credential> selectAllCredentials() {
         String sql = "" +
                 "SELECT " +
                 "email_address, " +
-                "password, " +
+                "password " +
                 "FROM credentials";
-        return jdbcTemplate.query(sql, mapLoginFromDataBase());
+        return jdbcTemplate.query(sql, mapCredentialFromDataBase());
     }
 
-    protected int insertLogin(Login login) {
+    protected int insertCredential(Credential credential) {
         String sql = "" +
                 "INSERT INTO credentials (" +
                 "email_address, " +
-                "password, " +
+                "password) " +
                 "VALUES (?, ?)";
         return jdbcTemplate.update(
                 sql,
-                login.getEmailaddress(),
-                login.getPassword()
+                credential.getEmailaddress(),
+                credential.getPassword()
         );
     }
 
-    private RowMapper<Login> mapLoginFromDataBase() {
+    private RowMapper<Credential> mapCredentialFromDataBase() {
         return (resultSet, i) -> {
-            String emailaddress = resultSet.getString("emailaddress");
+            String emailaddress = resultSet.getString("email_address");
             String password = resultSet.getString("password");
-            return new Login(emailaddress, password);
+            return new Credential(emailaddress, password);
         };
     }
 }

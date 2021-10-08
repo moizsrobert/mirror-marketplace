@@ -1,14 +1,14 @@
-package mirrors.mirrorsbackend.login;
+package mirrors.mirrorsbackend.credential;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Login {
+public class Credential {
 
     private final String emailaddress;
     private String password;
 
-    public Login(@JsonProperty("emailaddress") String emailaddress,
-                 @JsonProperty("password") String password) {
+    public Credential(@JsonProperty("emailaddress") String emailaddress,
+                      @JsonProperty("password") String password) {
         this.emailaddress = emailaddress;
         this.password = password;
     }
