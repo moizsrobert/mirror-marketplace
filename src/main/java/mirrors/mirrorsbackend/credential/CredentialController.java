@@ -17,7 +17,7 @@ public class CredentialController {
     }
 
     @GetMapping
-    public List<Credential> getAllUsers() {
+    public List<Credential> getAllCredentials() {
         return credentialService.getAllCredentials();
     }
 
