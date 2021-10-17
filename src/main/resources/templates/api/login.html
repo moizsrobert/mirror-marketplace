@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Marketplace</title>
+    <link rel="stylesheet" th:href="@{/css/design.css}">
+</head>
+<body>
+<h1>Login</h1>
+<form th:action="@{/api/login}" method="post">
+    <p>E-mail Address:</p>
+    <label>
+        <input type="email" name="email">
+    </label>
+    <p>Password:</p>
+    <label>
+        <input type="password" name="password">
+    </label>
+    <label>
+        Remember me:
+        <input type="checkbox" name="remember">
+    </label>
+    <input id="submit" type="submit">
+    <a href="/api/registration">Create new account</a>
+    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
+            <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
+    </c:if>
+</form>
+</body>
+</html>

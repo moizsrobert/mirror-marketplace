@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration - Marketplace</title>
+    <link rel="stylesheet" th:href="@{/css/design.css}">
+</head>
+<body>
+<h1>Registration</h1>
+<form th:action="@{/api/registration}" method="post">
+    <p>E-mail Address:</p>
+    <label>
+        <input type="email" name="email">
+    </label>
+    <p>Password:</p>
+    <label>
+        <input type="password" name="password">
+    </label>
+    <p>Confirm Password:</p>
+    <label>
+        <input type="password" name="confirmPassword">
+    </label>
+    <input id="submit" type="submit">
+    <a href="/api/login">I already have an account</a>
+</form>
+</body>
+</html>
