@@ -5,6 +5,7 @@
     <title>Home - Marketplace</title>
 </head>
 <body>
-    <a href="/api/logout">Logout</a>
+<div class="alert alert-danger text-center" th:if="${param.error}" th:text="${param.error}"></div>
+<a href="/api/logout">Logout</a>
 </body>
 </html>

@@ -1,15 +1,13 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,16 +16,9 @@ import java.util.Collections;
 @Entity
 public class MarketplaceUser implements UserDetails {
 
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1)
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence")
-    private Long id;
-
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String id = UUID.randomUUID().toString();
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.email;
+package com.mirrors.mirrorsbackend.marketplaceuser.utils;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

@@ -18,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MarketplaceUserService marketplaceUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final int rememberMeTokenValidity = 60 * 60 * 24;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                     .loginProcessingUrl("/api/login")
                     .defaultSuccessUrl("/home", true)
-                    .failureUrl("/api/login?error=true")
+                    .failureUrl("/api/login?login_error")
                 .and()
                     .logout()
                     .invalidateHttpSession(true)
@@ -48,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeParameter("remember")
                 .rememberMeCookieName("remember-me")
                 .key("fe7a26f92564ccf64a7ff908765b7d819ee4f0bd0e3f7d7bd9c27b20ff776fb3")
-                .tokenValiditySeconds(60 * 60 * 24);
+                .tokenValiditySeconds(rememberMeTokenValidity);
     }
 
     @Override

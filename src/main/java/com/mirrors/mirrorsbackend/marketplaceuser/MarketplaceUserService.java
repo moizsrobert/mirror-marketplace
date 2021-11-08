@@ -1,15 +1,19 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.registration.token.ConfirmationToken;
-import com.mirrors.mirrorsbackend.registration.token.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset.PasswordResetToken;
+import com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationToken;
+import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +25,7 @@ public class MarketplaceUserService implements UserDetailsService {
     private final MarketplaceUserRepository marketplaceUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final PasswordResetTokenService passwordResetTokenService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -50,15 +55,23 @@ public class MarketplaceUserService implements UserDetailsService {
     }
 
     private String createConfirmationTokenForUser(MarketplaceUser marketplaceUser) {
-        String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_IN_MINUTES),
                 marketplaceUser);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        return token;
+        return confirmationToken.getToken();
+    }
+
+    public String createPasswordResetToken(MarketplaceUser marketplaceUser) {
+        PasswordResetToken passwordResetToken = new PasswordResetToken(
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(60 * 24),
+                marketplaceUser);
+        passwordResetTokenService.savePasswordResetToken(passwordResetToken);
+
+        return passwordResetToken.getToken();
     }
 
     public int enableMarketplaceUser(String email) {

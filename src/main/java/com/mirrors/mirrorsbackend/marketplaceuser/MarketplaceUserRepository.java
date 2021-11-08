@@ -18,4 +18,9 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
     @Modifying
     @Query("UPDATE MarketplaceUser u SET u.enabled = TRUE WHERE u.email = ?1")
     int enableMarketplaceUser(String email);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE MarketplaceUser u SET u.password = ?2 WHERE u.email = ?1")
+    int changePassword(String email, String newPassword);
 }

@@ -21,3 +21,5 @@ Ha a program problémázik indításnál, akkor nagy eséllyel át kell állíta
 vagy nincsen elindítva a MySQL Server.
 (Ha telepítve van, akkor Windows-on kereső -> services.msc -> MySQL80 -> Indítás)
 Célszerű IntelliJ-t használni hozzá.
+
+

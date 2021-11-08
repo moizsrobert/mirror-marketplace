@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.registration;
+package com.mirrors.mirrorsbackend.marketplaceuser.utils;
 
 import org.springframework.stereotype.Component;
 

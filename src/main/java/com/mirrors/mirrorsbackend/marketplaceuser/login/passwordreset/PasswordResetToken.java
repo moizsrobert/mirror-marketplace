@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.registration.token;
+package com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset;
 
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
 import lombok.Getter;
@@ -7,25 +7,17 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
-public class ConfirmationToken {
+public class PasswordResetToken {
 
-    @SequenceGenerator(
-            name = "confirmation_token_sequence",
-            sequenceName = "confirmation_token_sequence",
-            allocationSize = 1)
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "confirmation_token_sequence")
-    private Long id;
-
-    @Column(nullable = false)
-    private String token;
+    @Column(nullable = false, columnDefinition = "VARCHAR(255)")
+    private String token = UUID.randomUUID().toString();
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -33,7 +25,7 @@ public class ConfirmationToken {
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
-    private LocalDateTime confirmedAt;
+    private LocalDateTime changedAt;
 
     @ManyToOne
     @JoinColumn(
@@ -41,12 +33,10 @@ public class ConfirmationToken {
             name = "user_id")
     private MarketplaceUser marketplaceUser;
 
-    public ConfirmationToken(
-            String token,
+    public PasswordResetToken(
             LocalDateTime now,
             LocalDateTime plusMinutes,
             MarketplaceUser marketplaceUser) {
-        this.token = token;
         this.createdAt = now;
         this.expiresAt = plusMinutes;
         this.marketplaceUser = marketplaceUser;

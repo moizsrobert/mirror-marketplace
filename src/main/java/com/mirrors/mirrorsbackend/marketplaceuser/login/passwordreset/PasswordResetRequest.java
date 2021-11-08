@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.registration;
+package com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,8 +9,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequest {
-    private final String email;
+public class PasswordResetRequest {
     private final String password;
     private final String confirmPassword;
+    private final String token;
 }

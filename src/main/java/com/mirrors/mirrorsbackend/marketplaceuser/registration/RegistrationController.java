@@ -1,6 +1,7 @@
-package com.mirrors.mirrorsbackend.registration;
+package com.mirrors.mirrorsbackend.marketplaceuser.registration;
 
 import lombok.AllArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +23,7 @@ public class RegistrationController {
     }
 
     @GetMapping("confirm")
-    public String confirm(@RequestParam("token") String token) {
+    public ModelAndView confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }
 }

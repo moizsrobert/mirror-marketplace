@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.login;
+package com.mirrors.mirrorsbackend.marketplaceuser.login;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

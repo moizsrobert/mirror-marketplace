@@ -1,14 +1,17 @@
-package com.mirrors.mirrorsbackend.registration;
+package com.mirrors.mirrorsbackend.marketplaceuser.registration;
 
-import com.mirrors.mirrorsbackend.email.EmailSender;
+import com.mirrors.mirrorsbackend.marketplaceuser.utils.EmailSender;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserRole;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserService;
-import com.mirrors.mirrorsbackend.registration.token.ConfirmationToken;
-import com.mirrors.mirrorsbackend.registration.token.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationToken;
+import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.marketplaceuser.utils.EmailValidator;
+import com.mirrors.mirrorsbackend.marketplaceuser.utils.PasswordValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -30,42 +33,50 @@ public class RegistrationService {
 
         boolean isValidPassword = passwordValidator.test(request.getPassword());
         if (!isValidPassword)
-            throw new IllegalStateException("Password is invalid!");
+            throw new IllegalStateException("""
+                            Password must contain:
+                            - Atleast 1 uppercase letter
+                            - Atleast 1 lowercase letter
+                            - Atleast 1 numbers
+                            - Atleast 8 characters
+                            """
+            );
 
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new IllegalStateException("Passwords don't match!");
 
-        String token = marketplaceUserService.signUpUser(new MarketplaceUser(
+        MarketplaceUser marketplaceUser = new MarketplaceUser(
                 request.getEmail(),
                 request.getPassword(),
                 MarketplaceUserRole.USER
-        ));
+        );
+        String token = marketplaceUserService.signUpUser(marketplaceUser);
 
         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
         emailSender.send(request.getEmail(), buildEmail(link));
 
-        return new ModelAndView("/api/login");
+        return new ModelAndView("redirect:/api/login?registration_successful");
     }
 
     @Transactional
-    public String confirmToken(String token) {
+    public ModelAndView confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
-                .orElseThrow(() -> new IllegalStateException("Token not found!"));
+                .orElseThrow(() -> new IllegalStateException("Token Error: Token not found!"));
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("Token already confirmed!");
+            throw new IllegalStateException("Token Error: Token already confirmed!");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Token is expired!");
+            throw new IllegalStateException("Token Error: Token is expired!");
         }
 
         confirmationTokenService.setConfirmedAt(token);
         marketplaceUserService.enableMarketplaceUser(confirmationToken.getMarketplaceUser().getEmail());
-        return "Email confirmed!";
+        return new ModelAndView("redirect:/api/login?email_confirmed");
     }
 
     private String buildEmail(String link) {
