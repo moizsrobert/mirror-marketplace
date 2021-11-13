@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration - Mirror</title>
+    <title>Forgot Password - Mirror</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
@@ -27,26 +27,18 @@
         <div class="form-holder">
             <div class="form-content">
                 <div class="form-items">
-                    <h3>Registration</h3>
-                    <p>Create a profile to access all features!</p>
+                    <h3>Forgot your password?</h3>
+                    <p>Enter your email address to get a password reset link!</p>
                     <div class="alert alert-danger text-center" th:if="${session.error}"
                          th:text="${session.error.getMessage()}"></div>
                     <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
-                    <div class="page-links">
-                        <a th:href="@{/api/login}">Login</a><a th:href="@{/api/registration}" class="active">Register</a>
-                    </div>
-                    <form th:action="@{/api/registration}" method="POST">
+                    <form th:action="@{/api/forgot}" method="POST">
                         <label>
                             <input class="form-control" type="email" name="email" placeholder="Email Address" required>
                         </label>
-                        <label>
-                            <input class="form-control" type="password" name="password" placeholder="Password" required>
-                        </label>
-                        <label>
-                            <input class="form-control" type="password" name="confirmPassword" placeholder="Confirm Password" required>
-                        </label>
                         <div class="form-button">
-                            <button id="submit" type="submit" class="ibtn">Register</button>
+                            <button id="submit" type="submit" class="ibtn">Send reset link</button>
+                            <a th:href="@{/api/login}">Back to login</a>
                         </div>
                     </form>
                 </div>

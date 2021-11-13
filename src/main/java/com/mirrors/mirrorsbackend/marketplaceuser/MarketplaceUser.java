@@ -1,5 +1,6 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
+import com.mirrors.mirrorsbackend.page.settings.CountryEnum;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +24,17 @@ public class MarketplaceUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private MarketplaceUserRole marketplaceUserRole;
+
+    private String displayName;
+    private String firstName;
+    private String lastName;
+
+    private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private CountryEnum country;
+    private String city;
+    private String streetAddress;
+    private String zipCode;
 
     private boolean locked = false;
     private boolean enabled = false;

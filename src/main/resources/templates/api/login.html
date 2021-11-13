@@ -1,54 +1,78 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Marketplace</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" th:href="@{/css/design.css}">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content=p"width=device-width, initial-scale=1.0">
+    <title>Login - Mirror</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/theme.css}">
 </head>
 <body>
-<main>
-    <div>
-        <form th:action="@{/api/login}" method="post">
-            <h1>Login</h1>
-            <div class="alert alert-danger text-center" th:if="${param.error}" th:text="${param.error}"></div>
-            <div class="alert alert-danger text-center" th:if="${param.login_error}">
-                Invalid e-mail or password.
+<div class="form-body">
+    <div class="website-logo">
+        <a th:href="@{/../home}">
+            <div class="logo">
+                <img class="logo-size" th:src="@{/img/logo.png}" alt="">
             </div>
-            <div class="alert alert-success text-center" th:if="${param.logout}">
-                You have logged out successfully.
-            </div>
-            <div class="alert alert-success text-center" th:if="${param.password_changed}">
-                Password changed successfully.
-            </div>
-            <div class="alert alert-success text-center" th:if="${param.reset_email_sent}">
-                Password reset email sent!
-            </div>
-            <div class="alert alert-success text-center" th:if="${param.email_confirmed}">
-                Email confirmed!
-            </div>
-            <div class="alert alert-success text-center" th:if="${param.registration_successful}">
-                Registration successful!
-            </div>
-            <p>E-mail Address:</p>
-            <label>
-                <input type="email" name="email">
-            </label>
-            <p>Password:</p>
-            <label>
-                <input type="password" name="password">
-            </label>
-            <label>
-                Remember me:
-                <input type="checkbox" name="remember">
-            </label>
-            <input type="submit" >
-            <a href="/api/registration">Create new account</a>
-            <a href="/api/reset-password">Forgot your password?</a>
-        </form>
+        </a>
     </div>
-</main>
+    <div class="row">
+        <div class="img-holder">
+            <div class="bg"></div>
+            <div class="info-holder">
+            </div>
+        </div>
+        <div class="form-holder">
+            <div class="form-content">
+                <div class="form-items">
+                    <h3>Login</h3>
+                    <p>Log in to access your profile and sell your items for some extra cash.</p>
+                    <div class="alert alert-danger text-center" th:if="${session.error}"
+                         th:text="${session.error.getMessage()}"></div>
+                    <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
+                    <div class="alert alert-danger text-center" th:if="${param.login_error}">
+                        Invalid email or password.
+                    </div>
+                    <div class="alert alert-success text-center" th:if="${param.logout}">
+                        You have logged out successfully.
+                    </div>
+                    <div class="alert alert-success text-center" th:if="${param.password_changed}">
+                        Password changed successfully.
+                    </div>
+                    <div class="alert alert-success text-center" th:if="${param.reset_email_sent}">
+                        Password reset email sent!
+                    </div>
+                    <div class="alert alert-success text-center" th:if="${param.email_confirmed}">
+                        Email confirmed!
+                    </div>
+                    <div class="alert alert-success text-center" th:if="${param.registration_successful}">
+                        Registration successful!
+                    </div>
+                    <div class="page-links">
+                        <a th:href="@{/api/login}" class="active">Login</a><a th:href="@{/api/registration}">Register</a>
+                    </div>
+                    <form th:action="@{/api/login}" method="POST">
+                        <label>
+                            <input class="form-control" type="email" name="email" placeholder="Email Address" required>
+                        </label>
+                        <label>
+                            <input class="form-control" type="password" name="password" placeholder="Password" required>
+                        </label>
+                        <div class="form-button">
+                            <button id="submit" type="submit" class="ibtn">Login</button>
+                            <a th:href="@{/api/forgot}">Forgot your password?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

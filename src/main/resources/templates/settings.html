@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - Marketplace</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" th:href="@{/css/design.css}">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+<main>
+    <div>
+        <a href="home">Home</a>
+        <a style="color: red" href="settings">Settings</a>
+        <a href="/api/logout">Logout</a>
+    </div>
+    <form th:action="@{/settings}" method="post">
+        <h1>Settings</h1>
+        <div class="alert alert-danger text-center" th:if="${session.error}" th:text="${session.error.getMessage()}"></div>
+        <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
+        <div class="alert alert-success text-center" th:if="${param.settings_saved}">
+            Settings saved.
+        </div>
+        <div class="alert alert-success text-center" th:if="${param.email_sent}">
+            Password reset email sent!
+        </div>
+        <p>Display Name</p>
+        <label>
+            <input type="text" name="displayName" th:value="${user.getDisplayName()}">
+        </label>
+        <p>First Name</p>
+        <label>
+            <input type="text" name="firstName" th:value="${user.getFirstName()}">
+        </label>
+        <p>Last Name</p>
+        <label>
+            <input type="text" name="lastName" th:value="${user.getLastName()}">
+        </label>
+        <p>Phone Number</p>
+        <label>
+            <input type="text" name="phoneNumber" th:value="${user.getPhoneNumber()}">
+        </label>
+        <p>Country</p>
+        <label>
+            <select id="country" name="country">
+                <option th:each="country : ${T(com.mirrors.mirrorsbackend.page.settings.CountryEnum).values()}"
+                        th:value="${country}"
+                        th:text="${country.displayName}"
+                        th:selected="(${user.getCountry().getDisplayName()} == *{country.displayName})">
+                </option>
+            </select>
+        </label>
+        <p>City</p>
+        <label>
+            <input type="text" name="city" th:value="${user.getCity()}">
+        </label>
+        <p>Street Address</p>
+        <label>
+            <input type="text" name="streetAddress" th:value="${user.getStreetAddress()}">
+        </label>
+        <p>Zip Code</p>
+        <label>
+            <input type="text" name="zipCode" th:value="${user.getZipCode()}">
+        </label>
+        <input type="submit">
+    </form>
+    <a href="settings/reset_password">Send password reset email.</a>
+</main>
+</body>
+</html>

@@ -1,19 +1,17 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset.PasswordResetToken;
-import com.mirrors.mirrorsbackend.marketplaceuser.login.passwordreset.PasswordResetTokenService;
-import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationToken;
-import com.mirrors.mirrorsbackend.marketplaceuser.registration.token.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetToken;
+import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationToken;
+import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
