@@ -1,12 +1,11 @@
-package com.mirrors.mirrorsbackend.page.login;
+package com.mirrors.mirrorsbackend.page.login.password_reset;
 
 import com.mirrors.mirrorsbackend.exception.TokenException;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserRepository;
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserService;
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetRequest;
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetToken;
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetTokenService;
 import com.mirrors.mirrorsbackend.utils.EmailSender;
 import com.mirrors.mirrorsbackend.utils.PasswordValidator;
 import com.mirrors.mirrorsbackend.utils.security.PasswordEncoder;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
-public class LoginService {
+public class PasswordResetService {
 
     private final MarketplaceUserService marketplaceUserService;
     private final MarketplaceUserRepository marketplaceUserRepository;
@@ -83,15 +82,15 @@ public class LoginService {
         if (!validator.test(passwordResetRequest.getPassword()))
             throw new IllegalStateException("Password must contain " +
                     "atleast 1 uppercase letter, " +
-                    "atleast 1 lowercase letter, " +
-                    "atleast 1 number " +
-                    "and atleast 8 characters");
+                    "1 lowercase letter, " +
+                    "1 number " +
+                    "and 8 characters");
 
-        MarketplaceUser marketplaceUser = passwordResetToken.getMarketplaceUser();
+        MarketplaceUser user = passwordResetToken.getMarketplaceUser();
         String encryptedPassword = new PasswordEncoder()
                 .bCryptPasswordEncoder()
                 .encode(passwordResetRequest.getPassword());
-        marketplaceUserRepository.changePassword(marketplaceUser.getEmail(), encryptedPassword);
+        marketplaceUserRepository.changePassword(encryptedPassword, user.getId());
         passwordResetTokenService.setConfirmedAt(passwordResetRequest.getToken());
 
         SecurityContextHolder.getContext().setAuthentication(null);

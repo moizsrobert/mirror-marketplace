@@ -22,28 +22,32 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
 
     @Transactional
     @Modifying
-    @Query("UPDATE MarketplaceUser u SET u.password = ?2 WHERE u.email = ?1")
-    int changePassword(String email, String newPassword);
+    @Query("UPDATE MarketplaceUser u SET u.password = ?1 WHERE u.id = ?2")
+    int changePassword(String newPassword, String id);
 
     @Transactional
     @Modifying
     @Query("UPDATE MarketplaceUser u SET " +
             "u.displayName = ?1, " +
             "u.firstName = ?2, " +
-            "u.lastName = ?3, " +
-            "u.phoneNumber = ?4, " +
-            "u.country = ?5, " +
-            "u.city = ?6, " +
-            "u.streetAddress = ?7, " +
-            "u.zipCode = ?8 " +
-            "WHERE u.id = ?9")
-    int changeSettings(String displayName,
-                       String firstName,
-                       String lastName,
-                       String phoneNumber,
-                       CountryEnum country,
-                       String city,
-                       String streetAddress,
-                       String zipCode,
-                       String id);
+            "u.lastName = ?3 " +
+            "WHERE u.id = ?4")
+    int changePersonalInfo(String displayName, String firstName, String lastName, String id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE MarketplaceUser u SET " +
+            "u.phoneNumber = ?1 " +
+            "WHERE u.id = ?2")
+    int changePhoneNumber(String phoneNumber, String id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE MarketplaceUser u SET " +
+            "u.country = ?1, " +
+            "u.city = ?2, " +
+            "u.streetAddress = ?3, " +
+            "u.zipCode = ?4 " +
+            "WHERE u.id = ?5")
+    int changeShippingAddress(CountryEnum country, String city, String streetAddress, String zipCode, String id);
 }

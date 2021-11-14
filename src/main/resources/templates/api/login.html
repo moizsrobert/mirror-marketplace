@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content=p"width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Mirror</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/theme.css}">
 </head>
@@ -51,7 +51,8 @@
                         Registration successful!
                     </div>
                     <div class="page-links">
-                        <a th:href="@{/api/login}" class="active">Login</a><a th:href="@{/api/registration}">Register</a>
+                        <a th:href="@{/api/login}" class="active">Login</a><a
+                            th:href="@{/api/registration}">Register</a>
                     </div>
                     <form th:action="@{/api/login}" method="POST">
                         <label>
@@ -70,9 +71,9 @@
         </div>
     </div>
 </div>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/popper.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/popper.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

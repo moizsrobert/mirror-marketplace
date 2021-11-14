@@ -2,70 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Settings - Marketplace</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link rel="stylesheet" th:href="@{/css/design.css}">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Mirror</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/theme.css}">
 </head>
 <body>
-<main>
+<header>
     <div>
-        <a href="home">Home</a>
-        <a style="color: red" href="settings">Settings</a>
-        <a href="/api/logout">Logout</a>
+        <a th:href="@{home}">Home</a>
+        <a class="selected" th:href="@{settings}">Profile</a>
+        <a th:href="@{/api/logout}">Logout</a>
     </div>
-    <form th:action="@{/settings}" method="post">
-        <h1>Settings</h1>
-        <div class="alert alert-danger text-center" th:if="${session.error}" th:text="${session.error.getMessage()}"></div>
-        <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
-        <div class="alert alert-success text-center" th:if="${param.settings_saved}">
-            Settings saved.
+</header>
+
+<main>
+    <div class="alert alert-danger text-center" th:if="${session.error}"
+         th:text="${session.error.getMessage()}"></div>
+    <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
+    <div class="alert alert-success text-center" th:if="${param.settings_saved}">
+        Settings saved.
+    </div>
+
+    <div class="form-content">
+        <div class="form-items">
+            <form th:action="@{/settings/personal}" method="POST">
+                <h2>Personal information</h2>
+                <label>
+                    <input class="form-control" type="text" name="displayName" placeholder="Display name"
+                           th:value="${user.getDisplayName()}" required>
+                </label>
+                <label>
+                    <input class="form-control" type="text" name="firstName" placeholder="First name"
+                           th:value="${user.getFirstName()}">
+                </label>
+                <label>
+                    <input class="form-control" type="text" name="lastName" placeholder="Last name"
+                           th:value="${user.getLastName()}">
+                </label>
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Submit</button>
+                </div>
+            </form>
         </div>
-        <div class="alert alert-success text-center" th:if="${param.email_sent}">
-            Password reset email sent!
+    </div>
+
+    <div class="form-content">
+        <div class="form-items">
+            <form th:action="@{/settings/password}" method="POST">
+                <h2>Change password</h2>
+                <label>
+                    <input class="form-control" type="password" name="oldPassword" placeholder="Old password" required>
+                </label>
+                <label>
+                    <input class="form-control" type="password" name="password" placeholder="New password" required>
+                </label>
+                <label>
+                    <input class="form-control" type="password" name="confirmPassword"
+                           placeholder="Confirm new password"
+                           required>
+                </label>
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Submit</button>
+                </div>
+            </form>
         </div>
-        <p>Display Name</p>
-        <label>
-            <input type="text" name="displayName" th:value="${user.getDisplayName()}">
-        </label>
-        <p>First Name</p>
-        <label>
-            <input type="text" name="firstName" th:value="${user.getFirstName()}">
-        </label>
-        <p>Last Name</p>
-        <label>
-            <input type="text" name="lastName" th:value="${user.getLastName()}">
-        </label>
-        <p>Phone Number</p>
-        <label>
-            <input type="text" name="phoneNumber" th:value="${user.getPhoneNumber()}">
-        </label>
-        <p>Country</p>
-        <label>
-            <select id="country" name="country">
-                <option th:each="country : ${T(com.mirrors.mirrorsbackend.page.settings.CountryEnum).values()}"
-                        th:value="${country}"
-                        th:text="${country.displayName}"
-                        th:selected="(${user.getCountry().getDisplayName()} == *{country.displayName})">
-                </option>
-            </select>
-        </label>
-        <p>City</p>
-        <label>
-            <input type="text" name="city" th:value="${user.getCity()}">
-        </label>
-        <p>Street Address</p>
-        <label>
-            <input type="text" name="streetAddress" th:value="${user.getStreetAddress()}">
-        </label>
-        <p>Zip Code</p>
-        <label>
-            <input type="text" name="zipCode" th:value="${user.getZipCode()}">
-        </label>
-        <input type="submit">
-    </form>
-    <a href="settings/reset_password">Send password reset email.</a>
+    </div>
+
+
+    <div class="form-content">
+        <div class="form-items">
+            <form th:action="@{/settings/phone}" method="POST">
+                <h2>Phone number</h2>
+                <label>
+                    <input class="form-control" type="text" name="phoneNumber" placeholder="Phone number"
+                           th:value="${user.getPhoneNumber()}">
+                </label>
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-content">
+        <div class="form-items">
+            <form th:action="@{/settings/address}" method="POST">
+                <h2>Shipping address</h2>
+                <label>
+                    <select class="form-select" id="country" name="country">
+                        <option th:each="country : ${T(com.mirrors.mirrorsbackend.page.settings.CountryEnum).values()}"
+                                th:value="${country}"
+                                th:text="${country.displayName}"
+                                th:selected="(${user.getCountry().getDisplayName()} == *{country.displayName})">
+                        </option>
+                    </select>
+                </label>
+                <label>
+                    <input class="form-control" type="text" name="city" placeholder="City" th:value="${user.getCity()}">
+                </label>
+                <label>
+                    <input class="form-control" type="text" name="streetAddress" placeholder="Street address"
+                           th:value="${user.getStreetAddress()}">
+                </label>
+                <label>
+                    <input class="form-control" type="text" name="zipCode" placeholder="Zip code"
+                           th:value="${user.getZipCode()}">
+                </label>
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
+<script th:src="@{/js/jquery.js}"></script>
+<script th:src="@{/js/popper.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>

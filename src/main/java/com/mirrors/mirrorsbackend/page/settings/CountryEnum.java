@@ -3,7 +3,7 @@ package com.mirrors.mirrorsbackend.page.settings;
 import lombok.Getter;
 
 public enum CountryEnum {
-NOTHING_SELECTED(""),
+NOTHING_SELECTED("Select a country..."),
 AFGHANISTAN("Afghanistan"),
 ALBANIA("Albania"),
 ALGERIA("Algeria"),

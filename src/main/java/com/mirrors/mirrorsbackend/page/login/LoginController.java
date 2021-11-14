@@ -1,6 +1,5 @@
 package com.mirrors.mirrorsbackend.page.login;
 
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,31 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/api")
 @AllArgsConstructor
 public class LoginController {
-
-    private final LoginService loginService;
-
     @GetMapping(value = "/login")
     public ModelAndView loginPage() {
         return new ModelAndView("/api/login");
-    }
-
-    @GetMapping("/forgot")
-    public ModelAndView resetPasswordPage() {
-        return new ModelAndView("/api/forgot");
-    }
-
-    @PostMapping("/forgot")
-    public ModelAndView resetPassword(String email) {
-        return loginService.sendPasswordResetEmail(email);
-    }
-
-    @GetMapping("/reset-password")
-    public ModelAndView passwordResetPage(@RequestParam(value = "token", required = false) String token) {
-        return loginService.confirmToken(token);
-    }
-
-    @PostMapping(value = "/reset-password")
-    public ModelAndView passwordReset(PasswordResetRequest passwordResetRequest) {
-        return loginService.changePassword(passwordResetRequest);
     }
 }

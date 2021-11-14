@@ -1,7 +1,7 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetToken;
-import com.mirrors.mirrorsbackend.page.login.password_reset.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetTokenService;
 import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationToken;
 import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationTokenService;
 import lombok.AllArgsConstructor;

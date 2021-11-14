@@ -36,9 +36,9 @@ public class RegistrationService {
         if (!isValidPassword)
             throw new IllegalStateException("Password must contain " +
                     "atleast 1 uppercase letter, " +
-                    "atleast 1 lowercase letter, " +
-                    "atleast 1 number " +
-                    "and atleast 8 characters");
+                    "1 lowercase letter, " +
+                    "1 number " +
+                    "and 8 characters");
         if (!request.getPassword().equals(request.getConfirmPassword()))
             throw new IllegalStateException("Passwords don't match!");
 

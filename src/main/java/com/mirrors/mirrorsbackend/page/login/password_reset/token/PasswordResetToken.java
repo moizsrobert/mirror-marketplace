@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.page.login.password_reset;
+package com.mirrors.mirrorsbackend.page.login.password_reset.token;
 
 import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
 import lombok.Getter;
