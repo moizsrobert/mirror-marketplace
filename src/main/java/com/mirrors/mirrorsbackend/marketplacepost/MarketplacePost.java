@@ -14,10 +14,13 @@ import java.util.UUID;
 @Entity
 public class MarketplacePost {
     @Id
-    @Column(columnDefinition = "VARCHAR(36)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(36)")
     private String postId = UUID.randomUUID().toString();
+    @Column(columnDefinition = "VARCHAR(150)", nullable = false)
     private String postName;
+    @Column(columnDefinition = "BIGINT", nullable = false)
     private Long postPrice;
+    @Column(columnDefinition = "VARCHAR(255)")
     private String postDescription;
     @Enumerated(EnumType.STRING)
     private CategoryEnum postCategory;

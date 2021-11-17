@@ -16,7 +16,7 @@ import java.util.UUID;
 public class PasswordResetToken {
 
     @Id
-    @Column(nullable = false, columnDefinition = "VARCHAR(36)")
+    @Column(columnDefinition = "VARCHAR(36)")
     private String token = UUID.randomUUID().toString();
 
     @Column(nullable = false)

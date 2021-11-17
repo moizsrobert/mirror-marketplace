@@ -20,20 +20,28 @@ public class MarketplaceUser implements UserDetails {
     @Id
     @Column(columnDefinition = "VARCHAR(36)")
     private String id = UUID.randomUUID().toString();
+    @Column(columnDefinition = "VARCHAR(60)", nullable = false)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
     private MarketplaceUserRole marketplaceUserRole;
 
+    @Column(columnDefinition = "VARCHAR(32)", nullable = false)
     private String displayName;
+    @Column(columnDefinition = "VARCHAR(25)")
     private String firstName;
+    @Column(columnDefinition = "VARCHAR(25)")
     private String lastName;
 
+    @Column(columnDefinition = "VARCHAR(15)")
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private CountryEnum country;
+    @Column(columnDefinition = "VARCHAR(85)")
     private String city;
+    @Column(columnDefinition = "VARCHAR(40)")
     private String streetAddress;
+    @Column(columnDefinition = "VARCHAR(7)")
     private String zipCode;
 
     private boolean locked = false;
