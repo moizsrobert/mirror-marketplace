@@ -33,7 +33,7 @@
                          th:text="${session.error.getMessage()}"></div>
                     <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
                     <div class="alert alert-danger text-center" th:if="${param.login_error}">
-                        Invalid email or password.
+                        Incorrect email or password! Your email might not be confirmed.
                     </div>
                     <div class="alert alert-success text-center" th:if="${param.logout}">
                         You have logged out successfully.

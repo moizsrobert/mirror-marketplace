@@ -2,7 +2,9 @@ server:
   error:
     include-message: always
     include-binding-errors: always
-
+  tomcat:
+    max-swallow-size: -1
+    max-http-form-post-size: -1
 spring:
   datasource:
     password: asd123
@@ -10,7 +12,7 @@ spring:
     username: root
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

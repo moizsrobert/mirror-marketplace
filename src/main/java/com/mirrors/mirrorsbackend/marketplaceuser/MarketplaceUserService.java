@@ -1,9 +1,9 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetToken;
-import com.mirrors.mirrorsbackend.page.login.password_reset.token.PasswordResetTokenService;
-import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationToken;
-import com.mirrors.mirrorsbackend.page.registration.email_confirmation.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.mvc.registration.email_confirmation.ConfirmationToken;
+import com.mirrors.mirrorsbackend.mvc.registration.email_confirmation.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MarketplaceUserService implements UserDetailsService {
 
-    private final static String USER_NOT_FOUND_MESSAGE = "User with email %s not found!";
-    private final static Integer TOKEN_EXPIRATION_IN_MINUTES = 60;
+    private final static Integer TOKEN_EXPIRATION_IN_MINUTES = 120;
 
     private final MarketplaceUserRepository marketplaceUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -28,7 +27,7 @@ public class MarketplaceUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return marketplaceUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MESSAGE, email)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email %s not found!", email)));
     }
 
     public String signUpUser(MarketplaceUser marketplaceUser) {
@@ -72,7 +71,7 @@ public class MarketplaceUserService implements UserDetailsService {
         return passwordResetToken.getToken();
     }
 
-    public int enableMarketplaceUser(String email) {
-        return marketplaceUserRepository.enableMarketplaceUser(email);
+    public void enableMarketplaceUser(String email) {
+        marketplaceUserRepository.enableMarketplaceUser(email);
     }
 }

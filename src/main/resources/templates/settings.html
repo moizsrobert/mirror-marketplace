@@ -14,6 +14,7 @@
 <header>
     <div>
         <a th:href="@{home}">Home</a>
+        <a th:href="@{new-post}">New Post</a>
         <a class="selected" th:href="@{settings}">Profile</a>
         <a th:href="@{/api/logout}">Logout</a>
     </div>
@@ -94,7 +95,7 @@
                 <h2>Shipping address</h2>
                 <label>
                     <select class="form-select" id="country" name="country">
-                        <option th:each="country : ${T(com.mirrors.mirrorsbackend.page.settings.CountryEnum).values()}"
+                        <option th:each="country : ${T(com.mirrors.mirrorsbackend.mvc.settings.CountryEnum).values()}"
                                 th:value="${country}"
                                 th:text="${country.displayName}"
                                 th:selected="(${user.getCountry().getDisplayName()} == *{country.displayName})">

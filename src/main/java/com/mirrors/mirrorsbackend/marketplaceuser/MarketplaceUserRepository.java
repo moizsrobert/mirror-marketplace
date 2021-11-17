@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.page.settings.CountryEnum;
+import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,12 +18,12 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
     @Transactional
     @Modifying
     @Query("UPDATE MarketplaceUser u SET u.enabled = TRUE WHERE u.email = ?1")
-    int enableMarketplaceUser(String email);
+    void enableMarketplaceUser(String email);
 
     @Transactional
     @Modifying
     @Query("UPDATE MarketplaceUser u SET u.password = ?1 WHERE u.id = ?2")
-    int changePassword(String newPassword, String id);
+    void changePassword(String newPassword, String id);
 
     @Transactional
     @Modifying
@@ -32,14 +32,14 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
             "u.firstName = ?2, " +
             "u.lastName = ?3 " +
             "WHERE u.id = ?4")
-    int changePersonalInfo(String displayName, String firstName, String lastName, String id);
+    void changePersonalInfo(String displayName, String firstName, String lastName, String id);
 
     @Transactional
     @Modifying
     @Query("UPDATE MarketplaceUser u SET " +
             "u.phoneNumber = ?1 " +
             "WHERE u.id = ?2")
-    int changePhoneNumber(String phoneNumber, String id);
+    void changePhoneNumber(String phoneNumber, String id);
 
     @Transactional
     @Modifying
@@ -49,5 +49,5 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
             "u.streetAddress = ?3, " +
             "u.zipCode = ?4 " +
             "WHERE u.id = ?5")
-    int changeShippingAddress(CountryEnum country, String city, String streetAddress, String zipCode, String id);
+    void changeShippingAddress(CountryEnum country, String city, String streetAddress, String zipCode, String id);
 }

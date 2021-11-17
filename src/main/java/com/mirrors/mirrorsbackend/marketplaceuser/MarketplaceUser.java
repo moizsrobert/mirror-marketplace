@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.marketplaceuser;
 
-import com.mirrors.mirrorsbackend.page.settings.CountryEnum;
+import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class MarketplaceUser implements UserDetails {
 
     @Id
-    @Column(columnDefinition = "VARCHAR(255)")
+    @Column(columnDefinition = "VARCHAR(36)")
     private String id = UUID.randomUUID().toString();
     private String email;
     private String password;
@@ -38,15 +38,6 @@ public class MarketplaceUser implements UserDetails {
 
     private boolean locked = false;
     private boolean enabled = false;
-
-    public MarketplaceUser(
-                           String email,
-                           String password,
-                           MarketplaceUserRole marketplaceUserRole) {
-        this.email = email;
-        this.password = password;
-        this.marketplaceUserRole = marketplaceUserRole;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
