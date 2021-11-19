@@ -1,16 +1,15 @@
-package com.mirrors.mirrorsbackend.mvc.newpost;
+package com.mirrors.mirrorsbackend.mvc.new_post;
 
-import com.mirrors.mirrorsbackend.marketplacepost.CategoryEnum;
-import com.mirrors.mirrorsbackend.marketplacepost.MarketplacePost;
-import com.mirrors.mirrorsbackend.marketplacepost.MarketplacePostRepository;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_post.CategoryEnum;
+import com.mirrors.mirrorsbackend.marketplace_post.MarketplacePost;
+import com.mirrors.mirrorsbackend.marketplace_post.MarketplacePostRepository;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
 import com.mirrors.mirrorsbackend.utils.file.ImageStorage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -27,7 +26,14 @@ public class NewPostService {
 
         MarketplacePost post = new MarketplacePost();
         long postPrice;
-        short numberOfImages = (short) ((postRequest.getPostImages() == null) ? 0 : postRequest.getPostImages().length);
+        short numberOfImages;
+        if (postRequest.getPostImages() == null)
+            throw new IllegalStateException("You must upload atleast one image!");
+        else
+            numberOfImages = (short) postRequest.getPostImages().length;
+
+        if (numberOfImages > 8)
+            throw new IllegalStateException("You cannot upload more than 8 images!");
 
         try {
             postPrice = Long.parseLong(postRequest.getPostPrice());

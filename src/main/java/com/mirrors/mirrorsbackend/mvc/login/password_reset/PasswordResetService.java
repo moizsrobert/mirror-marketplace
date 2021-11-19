@@ -1,11 +1,11 @@
 package com.mirrors.mirrorsbackend.mvc.login.password_reset;
 
 import com.mirrors.mirrorsbackend.exception.TokenException;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserRepository;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserService;
-import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetToken;
-import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserService;
+import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetTokenService;
 import com.mirrors.mirrorsbackend.utils.EmailSender;
 import com.mirrors.mirrorsbackend.utils.PasswordValidator;
 import com.mirrors.mirrorsbackend.utils.security.PasswordEncoder;

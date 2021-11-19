@@ -7,9 +7,8 @@ import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class PasswordRequest {
+public class PasswordRequest extends SettingRequest {
     private final String oldPassword;
     private final String password;
     private final String confirmPassword;

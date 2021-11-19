@@ -1,16 +1,12 @@
 package com.mirrors.mirrorsbackend.mvc.settings.request;
 
 import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class ShippingAddressRequest {
+public class ShippingAddressRequest extends SettingRequest{
     private final CountryEnum country;
     private final String city;
     private final String streetAddress;

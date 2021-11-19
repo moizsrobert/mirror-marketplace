@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.registration.email_confirmation;
+package com.mirrors.mirrorsbackend.email_confirmation_token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

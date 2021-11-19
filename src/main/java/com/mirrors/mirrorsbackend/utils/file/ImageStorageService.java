@@ -13,10 +13,11 @@ import java.util.Objects;
 @Service
 public class ImageStorageService implements ImageStorage {
 
-    private final StringBuilder path = new StringBuilder("src/main/resources/static/img/post/");
+    private final String path = "src/main/resources/static/img/post/";
 
     @Override
     public void save(String dirName, MultipartFile image, short fileName) {
+        StringBuilder pathBuilder = new StringBuilder(path);
         String extension;
 
         if (!Objects.equals(image.getContentType(), "image/png"))
@@ -31,15 +32,13 @@ public class ImageStorageService implements ImageStorage {
             throw new IllegalStateException("Image size cannot be larger than 4 MB!");
 
         try {
-            path.append(dirName).append("/");
-            if (!new File(String.valueOf(path)).mkdirs())
-                throw new IOException();
-            path.append(fileName).append(extension);
-            if (!new File(String.valueOf(path)).createNewFile())
-                throw new IOException();
+            pathBuilder.append(dirName).append("/");
+            new File(String.valueOf(pathBuilder)).mkdirs();
+            pathBuilder.append(fileName).append(extension);
+            new File(String.valueOf(pathBuilder)).createNewFile();
             Files.copy(
                     image.getInputStream(),
-                    Paths.get(String.valueOf(path)),
+                    Paths.get(String.valueOf(pathBuilder)),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();

@@ -45,7 +45,13 @@
                            th:value="${user.getLastName()}">
                 </label>
                 <div class="form-button">
-                    <button class="ibtn" type="submit">Submit</button>
+                    <button class="ibtn" type="submit">Save</button>
+                </div>
+            </form>
+            <form th:action="@{/settings/clear}" method="POST">
+                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PERSONAL_INFO}">
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Clear</button>
                 </div>
             </form>
         </div>
@@ -67,7 +73,7 @@
                            required>
                 </label>
                 <div class="form-button">
-                    <button class="ibtn" type="submit">Submit</button>
+                    <button class="ibtn" type="submit">Save</button>
                 </div>
             </form>
         </div>
@@ -83,7 +89,13 @@
                            th:value="${user.getPhoneNumber()}">
                 </label>
                 <div class="form-button">
-                    <button class="ibtn" type="submit">Submit</button>
+                    <button class="ibtn" type="submit">Save</button>
+                </div>
+            </form>
+            <form th:action="@{/settings/clear}" method="POST">
+                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PHONE_NUMBER}">
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Clear</button>
                 </div>
             </form>
         </div>
@@ -114,7 +126,13 @@
                            th:value="${user.getZipCode()}">
                 </label>
                 <div class="form-button">
-                    <button class="ibtn" type="submit">Submit</button>
+                    <button class="ibtn" type="submit">Save</button>
+                </div>
+            </form>
+            <form th:action="@{/settings/clear}" method="POST">
+                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).SHIPPING_ADDRESS}">
+                <div class="form-button">
+                    <button class="ibtn" type="submit">Clear</button>
                 </div>
             </form>
         </div>

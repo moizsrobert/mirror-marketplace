@@ -1,6 +1,6 @@
-package com.mirrors.mirrorsbackend.mvc.registration.email_confirmation;
+package com.mirrors.mirrorsbackend.email_confirmation_token;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplaceuser;
+package com.mirrors.mirrorsbackend.marketplace_user;
 
 public enum MarketplaceUserRole {
     USER,

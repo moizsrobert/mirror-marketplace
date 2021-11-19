@@ -1,7 +1,7 @@
 package com.mirrors.mirrorsbackend.mvc.settings;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PasswordRequest;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PersonalInfoRequest;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PhoneNumberRequest;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -23,15 +22,23 @@ public class SettingsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private PasswordValidator passwordValidator;
 
-    public ModelAndView changePersonalInfo(PersonalInfoRequest request, MarketplaceUser user) {
-        if (!request.getDisplayName().matches("[a-zA-Z0-9].{3,32}$"))
-            throw new IllegalStateException("Invalid display name!");
+    public ModelAndView changePersonalInfo(PersonalInfoRequest request, MarketplaceUser user, boolean clear) {
+        if (!clear) {
+            if (!request.getDisplayName().matches("[a-zA-Z_0-9].{3,32}"))
+                throw new IllegalStateException("Invalid display name!");
 
-        if (!request.getFirstName().matches("[A-Za-z].{0,128}$"))
-            throw new IllegalStateException("Invalid first name!");
+            if (!request.getFirstName().matches("\\p{IsAlphabetic}{2,25}"))
+                throw new IllegalStateException("Invalid first name!");
 
-        if (!request.getLastName().matches("[A-Za-z].{0,64}$"))
-            throw new IllegalStateException("Invalid last name!");
+            if (!request.getLastName().matches("\\p{IsAlphabetic}{2,25}"))
+                throw new IllegalStateException("Invalid last name!");
+        } else {
+            request = new PersonalInfoRequest(
+                    user.getDisplayName(),
+                    "",
+                    ""
+            );
+        }
 
         marketplaceUserRepository.changePersonalInfo(
                 request.getDisplayName(),
@@ -64,42 +71,57 @@ public class SettingsService {
         return new ModelAndView("redirect:/settings?settings_saved");
     }
 
-    public ModelAndView changePhoneNumber(PhoneNumberRequest request, MarketplaceUser user) {
-        String phoneNumber = request.getPhoneNumber();
-
-        if (phoneNumber.length() != 0) {
-            if (request.getPhoneNumber().toCharArray()[0] == '+')
-                phoneNumber = phoneNumber.substring(1);
-            for (char c : phoneNumber.toCharArray())
-                if (!Character.isDigit(c))
-                    throw new IllegalStateException("Phone number can only contain numeric characters!");
-
-            if (!phoneNumber.matches("[^0-9]*.{8,15}$"))
+    public ModelAndView changePhoneNumber(PhoneNumberRequest request, MarketplaceUser user, boolean clear) {
+        if (!clear) {
+            if (!request.getPhoneNumber().equals("") && request.getPhoneNumber().toCharArray()[0] == '+')
+                request.setPhoneNumber(request.getPhoneNumber().substring(1));
+            if (!request.getPhoneNumber().matches("\\p{Digit}{8,15}"))
                 throw new IllegalStateException("Invalid phone number");
+        } else {
+            request = new PhoneNumberRequest("");
         }
 
         marketplaceUserRepository.changePhoneNumber(
-                phoneNumber,
+                request.getPhoneNumber(),
                 user.getId());
         return new ModelAndView("redirect:/settings?settings_saved");
     }
 
-    public ModelAndView changeShippingAddress(ShippingAddressRequest request, MarketplaceUser user) {
-        if (Arrays.stream(CountryEnum.values()).noneMatch((s) -> s.name().equals(request.getCountry().name())))
-            throw new IllegalStateException("Country doesn't exist!");
+    public ModelAndView changeShippingAddress(ShippingAddressRequest request, MarketplaceUser user, boolean clear) {
+        if (!clear) {
+            ShippingAddressRequest finalRequest = request;
+            if (Arrays.stream(CountryEnum.values()).noneMatch((s) -> s.name().equals(finalRequest.getCountry().name())))
+                throw new IllegalStateException("Country doesn't exist!");
 
+            if (!request.getCity().matches("[-\\p{IsAlphabetic}]{2,85}"))
+                throw new IllegalStateException("Invalid city name!");
 
-        if (!request.getCity().matches("[A-Za-z-]*.{0,85}$"))
-            throw new IllegalStateException("Invalid city name!");
+            if (!request.getStreetAddress().matches("[-.\s\\p{IsAlnum}]{6,60}"))
+                throw new IllegalStateException("Invalid street address");
 
-        if (!request.getStreetAddress().matches("[^A-Za-z0-9.-]*.{0,128}$"))
-            throw new IllegalStateException("Invalid street address");
+            int indexOfLastPart = request.getStreetAddress().split(" ").length - 1;
+            String addressSecondPart = request.getStreetAddress().split(" ")[indexOfLastPart];
+            String addressFirstPart = request.getStreetAddress().concat(addressSecondPart);
 
-        if (request.getStreetAddress().split(" ").length < 3  && request.getStreetAddress().length() != 0)
-            throw new IllegalStateException("Invalid street address!");
+            if (!addressFirstPart.matches("[-\s\\p{IsAlphabetic}]"))
+                throw new IllegalStateException("Invalid street address!");
 
-        if (!request.getZipCode().matches("[A-Z0-9]*.{0,7}$"))
-            throw new IllegalStateException("Invalid zip code!");
+            if (!addressSecondPart.matches("[.\\p{IsDigit}]"))
+                throw new IllegalStateException("Invalid street address!");
+
+            if (request.getStreetAddress().split(" ").length < 3  && request.getStreetAddress().length() != 0)
+                throw new IllegalStateException("Invalid street address!");
+
+            if (!request.getZipCode().matches("\\p{Alnum}{4,8}"))
+                throw new IllegalStateException("Invalid zip code!");
+        } else {
+            request = new ShippingAddressRequest(
+                    CountryEnum.NOTHING_SELECTED,
+                    "",
+                    "",
+                    ""
+            );
+        }
 
         marketplaceUserRepository.changeShippingAddress(
                 request.getCountry(),

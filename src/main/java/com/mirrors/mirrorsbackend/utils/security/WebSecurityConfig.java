@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.utils.security;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserService;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
-package com.mirrors.mirrorsbackend.mvc.newpost;
+package com.mirrors.mirrorsbackend.mvc.new_post;
 
-import com.mirrors.mirrorsbackend.marketplacepost.CategoryEnum;
+import com.mirrors.mirrorsbackend.marketplace_post.CategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

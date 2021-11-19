@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplacepost;
+package com.mirrors.mirrorsbackend.marketplace_post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

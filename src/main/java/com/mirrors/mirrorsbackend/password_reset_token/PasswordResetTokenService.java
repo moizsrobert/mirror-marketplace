@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.login.password_reset.token;
+package com.mirrors.mirrorsbackend.password_reset_token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

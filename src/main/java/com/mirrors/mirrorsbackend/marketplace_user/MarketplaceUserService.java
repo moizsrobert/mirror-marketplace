@@ -1,9 +1,9 @@
-package com.mirrors.mirrorsbackend.marketplaceuser;
+package com.mirrors.mirrorsbackend.marketplace_user;
 
-import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetToken;
-import com.mirrors.mirrorsbackend.mvc.login.password_reset.token.PasswordResetTokenService;
-import com.mirrors.mirrorsbackend.mvc.registration.email_confirmation.ConfirmationToken;
-import com.mirrors.mirrorsbackend.mvc.registration.email_confirmation.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.email_confirmation_token.ConfirmationToken;
+import com.mirrors.mirrorsbackend.email_confirmation_token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplaceuser;
+package com.mirrors.mirrorsbackend.marketplace_user;
 
 import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;

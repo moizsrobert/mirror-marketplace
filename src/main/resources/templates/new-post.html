@@ -44,7 +44,7 @@
                 </label>
                 <label for="category">
                     <select class="form-select" id="category" name="postCategory">
-                        <option th:each="category : ${T(com.mirrors.mirrorsbackend.marketplacepost.CategoryEnum).values()}"
+                        <option th:each="category : ${T(com.mirrors.mirrorsbackend.marketplace_post.CategoryEnum).values()}"
                                 th:value="${category}"
                                 th:text="${category.displayName}">
                         </option>

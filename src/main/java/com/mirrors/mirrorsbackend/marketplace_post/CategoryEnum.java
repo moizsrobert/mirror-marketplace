@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplacepost;
+package com.mirrors.mirrorsbackend.marketplace_post;
 
 import lombok.Getter;
 

@@ -70,7 +70,7 @@ public class ExceptionLogger {
             exceptionElement.appendChild(timestampElement);
 
             for (Field field : exception.getClass().getDeclaredFields()) {
-                if (Modifier.isStatic(field.getModifiers()))
+                if (!field.isAnnotationPresent(XMLPresence.class))
                     continue;
                 field.setAccessible(true);
                 Element fieldElement = document.createElement(field.getName());

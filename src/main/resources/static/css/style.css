@@ -703,7 +703,7 @@ html, body {
 }
 
 .form-content .form-button {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 }
 
 .form-content .form-button .ibtn {
@@ -779,10 +779,6 @@ html, body {
 
 .form-content .btn :last-child {
     margin-right: 0;
-}
-
-.form-content form {
-    margin-bottom: 30px;
 }
 
 .form-content .other-links span {

@@ -1,19 +1,15 @@
 package com.mirrors.mirrorsbackend.mvc.settings;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUserRepository;
-import com.mirrors.mirrorsbackend.mvc.settings.request.PasswordRequest;
-import com.mirrors.mirrorsbackend.mvc.settings.request.PersonalInfoRequest;
-import com.mirrors.mirrorsbackend.mvc.settings.request.PhoneNumberRequest;
-import com.mirrors.mirrorsbackend.mvc.settings.request.ShippingAddressRequest;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.mvc.settings.request.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Arrays;
 import java.util.Optional;
 
 @RestController
@@ -26,27 +22,27 @@ public class SettingsController {
 
     @GetMapping
     public ModelAndView settingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
-        Optional<MarketplaceUser> optionalUser = marketplaceUserRepository.findByEmail(user.getEmail());
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-            model.addAttribute("user", user);
-        } else throw new IllegalStateException("Couldn't load settings!");
+        loadSettingsPage(user, model);
         return new ModelAndView("/settings");
     }
 
-    @GetMapping({"/personal", "/password", "/phone", "/address"})
+    @GetMapping({"/personal", "/password", "/phone", "/address", "/clear"})
     public ModelAndView redirectToSettingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
+        loadSettingsPage(user, model);
+        return new ModelAndView("redirect:/settings");
+    }
+
+    private void loadSettingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
         Optional<MarketplaceUser> optionalUser = marketplaceUserRepository.findByEmail(user.getEmail());
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
             model.addAttribute("user", user);
         } else throw new IllegalStateException("Couldn't load settings!");
-        return new ModelAndView("redirect:/settings");
     }
 
     @PostMapping("/personal")
     public ModelAndView savePersonalInfo(PersonalInfoRequest request, @AuthenticationPrincipal MarketplaceUser user) {
-        return settingsService.changePersonalInfo(request, user);
+        return settingsService.changePersonalInfo(request, user, false);
     }
 
     @PostMapping("/password")
@@ -56,11 +52,25 @@ public class SettingsController {
 
     @PostMapping("/phone")
     public ModelAndView savePhoneNumber(PhoneNumberRequest request, @AuthenticationPrincipal MarketplaceUser user) {
-        return settingsService.changePhoneNumber(request, user);
+        return settingsService.changePhoneNumber(request, user, false);
     }
 
     @PostMapping("/address")
     public ModelAndView saveShippingAddress(ShippingAddressRequest request, @AuthenticationPrincipal MarketplaceUser user) {
-        return settingsService.changeShippingAddress(request, user);
+        return settingsService.changeShippingAddress(request, user, false);
     }
+
+    @PostMapping("/clear")
+    public ModelAndView clearSettings(SettingValueEnum value, @AuthenticationPrincipal MarketplaceUser user) {
+        if (Arrays.stream(SettingValueEnum.values()).noneMatch((v) -> v.equals(value)))
+            throw new IllegalStateException("Couldn't clear settings!");
+        return switch (value) {
+            case PERSONAL_INFO -> settingsService.changePersonalInfo(null, user, true);
+            case PHONE_NUMBER -> settingsService.changePhoneNumber(null, user, true);
+            case SHIPPING_ADDRESS -> settingsService.changeShippingAddress(null, user, true);
+            default -> throw new IllegalStateException("Couldn't clear settings!");
+        };
+    }
+
+
 }

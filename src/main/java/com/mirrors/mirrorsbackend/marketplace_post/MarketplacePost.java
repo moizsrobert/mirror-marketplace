@@ -1,6 +1,6 @@
-package com.mirrors.mirrorsbackend.marketplacepost;
+package com.mirrors.mirrorsbackend.marketplace_post;
 
-import com.mirrors.mirrorsbackend.marketplaceuser.MarketplaceUser;
+import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,15 +1,11 @@
 package com.mirrors.mirrorsbackend.mvc.settings.request;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
-public class PersonalInfoRequest {
+public class PersonalInfoRequest extends SettingRequest {
     private final String displayName;
     private final String firstName;
     private final String lastName;

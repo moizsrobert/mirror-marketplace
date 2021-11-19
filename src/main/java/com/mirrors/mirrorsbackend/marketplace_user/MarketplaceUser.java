@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplaceuser;
+package com.mirrors.mirrorsbackend.marketplace_user;
 
 import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import lombok.*;
@@ -39,9 +39,9 @@ public class MarketplaceUser implements UserDetails {
     private CountryEnum country;
     @Column(columnDefinition = "VARCHAR(85)")
     private String city;
-    @Column(columnDefinition = "VARCHAR(40)")
+    @Column(columnDefinition = "VARCHAR(60)")
     private String streetAddress;
-    @Column(columnDefinition = "VARCHAR(7)")
+    @Column(columnDefinition = "VARCHAR(8)")
     private String zipCode;
 
     private boolean locked = false;

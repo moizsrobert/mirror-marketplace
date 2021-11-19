@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.login.password_reset.token;
+package com.mirrors.mirrorsbackend.password_reset_token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
