@@ -1,6 +1,6 @@
-package com.mirrors.mirrorsbackend.utils.security;
+package com.mirrors.mirrorsbackend.utils.config;
 
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserService;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/api/**", "/css/**", "/js/**", "/img/**")
+                    .antMatchers("/api/**", "/css/**", "/js/**", "/img/**", "/media/**")
                     .permitAll()
                     .anyRequest()
                     .authenticated()

@@ -9,7 +9,6 @@ import java.io.IOException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(RuntimeException.class)
     private void handleConflict(RuntimeException error,
                                 HttpSession session,

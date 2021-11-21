@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.utils.security;
+package com.mirrors.mirrorsbackend.utils.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

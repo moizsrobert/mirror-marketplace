@@ -1,26 +1,45 @@
 package com.mirrors.mirrorsbackend.mvc.settings;
 
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.MarketplacePostRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.MarketplacePostService;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserService;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PasswordRequest;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PersonalInfoRequest;
 import com.mirrors.mirrorsbackend.mvc.settings.request.PhoneNumberRequest;
 import com.mirrors.mirrorsbackend.mvc.settings.request.ShippingAddressRequest;
 import com.mirrors.mirrorsbackend.utils.PasswordValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
-
 import java.util.Arrays;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class SettingsService {
 
-    private MarketplaceUserRepository marketplaceUserRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private PasswordValidator passwordValidator;
+    final private MarketplaceUserRepository marketplaceUserRepository;
+    final private MarketplacePostRepository marketplacePostRepository;
+    final private MarketplaceUserService marketplaceUserService;
+    final private MarketplacePostService marketplacePostService;
+    final private BCryptPasswordEncoder bCryptPasswordEncoder;
+    final private PasswordValidator passwordValidator;
+
+    public void loadSettingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
+        Optional<MarketplaceUser> optionalUser = marketplaceUserRepository.findByEmail(user.getEmail());
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            model.addAttribute("user", user);
+            model.addAttribute("posts", marketplacePostRepository.findAllByUser(user));
+        }
+        else throw new IllegalStateException("Couldn't load settings!");
+    }
 
     public ModelAndView changePersonalInfo(PersonalInfoRequest request, MarketplaceUser user, boolean clear) {
         if (!clear) {
@@ -101,7 +120,7 @@ public class SettingsService {
 
             int indexOfLastPart = request.getStreetAddress().split(" ").length - 1;
             String addressSecondPart = request.getStreetAddress().split(" ")[indexOfLastPart];
-            String addressFirstPart = request.getStreetAddress().concat(addressSecondPart);
+            String addressFirstPart = request.getStreetAddress().replace(addressSecondPart, "");
 
             if (!addressFirstPart.matches("[-\s\\p{IsAlphabetic}]"))
                 throw new IllegalStateException("Invalid street address!");
@@ -130,5 +149,13 @@ public class SettingsService {
                 request.getZipCode(),
                 user.getId());
         return new ModelAndView("redirect:/settings?settings_saved");
+    }
+
+    public ModelAndView deleteAccount(MarketplaceUser user) {
+        SecurityContextHolder.getContext().setAuthentication(null);
+        SecurityContextHolder.clearContext();
+        marketplacePostService.deleteMarketplacePostsOfUser(user);
+        marketplaceUserService.deleteMarketplaceUser(user);
+        return new ModelAndView("redirect:api/login");
     }
 }

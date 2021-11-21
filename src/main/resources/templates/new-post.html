@@ -35,16 +35,15 @@
                 <label>
                     <input class="form-control" type="text" name="postName" placeholder="Display name" required>
                 </label>
-                <label>
-                    <input class="form-control" type="text" name="postPrice" placeholder="Price" required>
+                <label class="input-euro left">
+                    <input class="form-control" type="currency" min="0" max="999999999" name="postPrice" placeholder="Price" required>
                 </label>
                 <label>
-                    <input class="form-control" type="text" name="postDescription"
-                           placeholder="Description... (max 255 characters)">
+                    <textarea class="form-control" type="text" name="postDescription" placeholder="Description... (max 255 characters)"></textarea>
                 </label>
                 <label for="category">
                     <select class="form-select" id="category" name="postCategory">
-                        <option th:each="category : ${T(com.mirrors.mirrorsbackend.marketplace_post.CategoryEnum).values()}"
+                        <option th:each="category : ${T(com.mirrors.mirrorsbackend.entities.marketplace_post.CategoryEnum).values()}"
                                 th:value="${category}"
                                 th:text="${category.displayName}">
                         </option>
@@ -66,4 +65,37 @@
 <script th:src="@{/js/bootstrap.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 </body>
+<script>
+    const currencyInput = document.querySelector('input[type="currency"]');
+    const currency = 'USD';
+
+    onBlur({target:currencyInput})
+
+    currencyInput.addEventListener('focus', onFocus)
+    currencyInput.addEventListener('blur', onBlur)
+
+    function localStringToNumber( s ){
+        return Number(String(s).replace(/[^0-9.-]+/g,""))
+    }
+
+    function onFocus(e){
+        const value = e.target.value;
+        e.target.value = value ? localStringToNumber(value) : ''
+    }
+
+    function onBlur(e){
+        const value = e.target.value;
+
+        const options = {
+            maximumFractionDigits: 2,
+            currency: currency,
+            style: "currency",
+            currencyDisplay: "symbol"
+        };
+
+        e.target.value = (value || value === 0)
+            ? localStringToNumber(value).toLocaleString(undefined, options)
+            : ''
+    }
+</script>
 </html>

@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.mvc.new_post;
 
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;

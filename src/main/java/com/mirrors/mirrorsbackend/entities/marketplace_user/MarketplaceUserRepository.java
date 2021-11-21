@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplace_user;
+package com.mirrors.mirrorsbackend.entities.marketplace_user;
 
 import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser, Long> {
+public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser, String> {
 
     Optional<MarketplaceUser> findByEmail(String email);
 

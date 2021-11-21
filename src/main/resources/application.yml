@@ -20,14 +20,11 @@ spring:
     show-sql: true
   mvc:
     ignore-default-model-on-redirect: true
-
-
   mail:
     host: smtp.gmail.com
     port: 587
     username: mirrorsmarketplace@gmail.com
     password: Srorrim1234
-
     properties:
       mail:
         smtp:
@@ -39,3 +36,7 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1

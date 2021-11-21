@@ -1,9 +1,9 @@
 package com.mirrors.mirrorsbackend.mvc.new_post;
 
-import com.mirrors.mirrorsbackend.marketplace_post.CategoryEnum;
-import com.mirrors.mirrorsbackend.marketplace_post.MarketplacePost;
-import com.mirrors.mirrorsbackend.marketplace_post.MarketplacePostRepository;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.CategoryEnum;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.MarketplacePost;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.MarketplacePostRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
 import com.mirrors.mirrorsbackend.utils.file.ImageStorage;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,19 +25,20 @@ public class NewPostService {
             throw new IllegalStateException("Invalid post name!");
 
         MarketplacePost post = new MarketplacePost();
-        long postPrice;
         short numberOfImages;
-        if (postRequest.getPostImages() == null)
-            throw new IllegalStateException("You must upload atleast one image!");
+        if (postRequest.getPostImages()[0].isEmpty())
+            numberOfImages = 0;
         else
             numberOfImages = (short) postRequest.getPostImages().length;
+        double postPrice;
 
         if (numberOfImages > 8)
             throw new IllegalStateException("You cannot upload more than 8 images!");
 
         try {
-            postPrice = Long.parseLong(postRequest.getPostPrice());
+            postPrice = Double.parseDouble(postRequest.getPostPrice().replace(",", "").replace("$", ""));
         } catch (NumberFormatException exception) {
+            exception.printStackTrace();
             throw new IllegalStateException("Invalid price!");
         }
 
@@ -63,7 +64,7 @@ public class NewPostService {
         post.setPostUser(user);
         marketplacePostRepository.save(post);
 
-        return new ModelAndView("redirect:post/" + post.getPostId());
+        return new ModelAndView("redirect:post?id=" + post.getPostId());
     }
 
 }

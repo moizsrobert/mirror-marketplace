@@ -8,16 +8,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ImageStorageService implements ImageStorage {
 
-    private final String path = "src/main/resources/static/img/post/";
+    private final String path = "src/main/resources/media/";
+    private StringBuilder pathBuilder;
 
     @Override
     public void save(String dirName, MultipartFile image, short fileName) {
-        StringBuilder pathBuilder = new StringBuilder(path);
+        pathBuilder = new StringBuilder(path);
         String extension;
 
         if (!Objects.equals(image.getContentType(), "image/png"))
@@ -47,17 +48,26 @@ public class ImageStorageService implements ImageStorage {
     }
 
     @Override
-    public void load(String dirName) {
-
+    public List<File> load(String dirName) {
+        pathBuilder = new StringBuilder(path);
+        pathBuilder.append(dirName);
+        File dir = new File(String.valueOf(pathBuilder));
+        if (dir.listFiles() == null)
+            return Collections.emptyList();
+        else
+            return Arrays.stream(dir.listFiles()).toList();
     }
 
     @Override
-    public void delete(String dirName, short fileName) {
-
-    }
-
-    @Override
-    public void deleteAll(String dirName) {
-
+    public void delete(String dirName) {
+        pathBuilder = new StringBuilder(path);
+        pathBuilder.append(dirName);
+        File dir = new File(String.valueOf(pathBuilder));
+        File[] dirContent = dir.listFiles();
+        if (dirContent != null) {
+            for (var f : dirContent)
+                f.delete();
+        }
+        dir.delete();
     }
 }

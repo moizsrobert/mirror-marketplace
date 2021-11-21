@@ -1,6 +1,6 @@
-package com.mirrors.mirrorsbackend.password_reset_token;
+package com.mirrors.mirrorsbackend.entities.password_reset_token;
 
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

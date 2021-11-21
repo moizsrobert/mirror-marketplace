@@ -1,9 +1,9 @@
-package com.mirrors.mirrorsbackend.marketplace_user;
+package com.mirrors.mirrorsbackend.entities.marketplace_user;
 
-import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetToken;
-import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetTokenService;
-import com.mirrors.mirrorsbackend.email_confirmation_token.ConfirmationToken;
-import com.mirrors.mirrorsbackend.email_confirmation_token.ConfirmationTokenService;
+import com.mirrors.mirrorsbackend.entities.password_reset_token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.entities.password_reset_token.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.entities.email_confirmation_token.ConfirmationToken;
+import com.mirrors.mirrorsbackend.entities.email_confirmation_token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -73,5 +73,9 @@ public class MarketplaceUserService implements UserDetailsService {
 
     public void enableMarketplaceUser(String email) {
         marketplaceUserRepository.enableMarketplaceUser(email);
+    }
+
+    public void deleteMarketplaceUser(MarketplaceUser user) {
+        marketplaceUserRepository.delete(user);
     }
 }

@@ -1,6 +1,7 @@
 package com.mirrors.mirrorsbackend.mvc.post;
 
 import lombok.AllArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -8,8 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 @AllArgsConstructor
 @RequestMapping("post")
 public class PostController {
+
+    private final PostService postService;
+
     @GetMapping
-    public ModelAndView postPage(@RequestParam(value = "token", required = false) String token) {
-        return new ModelAndView("post?token=" + token);
+    public ModelAndView postPage(@RequestParam(value = "id", required = false) String id, Model model) {
+        return postService.loadPostPage(id, model);
     }
 }

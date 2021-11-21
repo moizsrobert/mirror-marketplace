@@ -1,14 +1,14 @@
 package com.mirrors.mirrorsbackend.mvc.login.password_reset;
 
 import com.mirrors.mirrorsbackend.exception.TokenException;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserService;
-import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetToken;
-import com.mirrors.mirrorsbackend.password_reset_token.PasswordResetTokenService;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserService;
+import com.mirrors.mirrorsbackend.entities.password_reset_token.PasswordResetToken;
+import com.mirrors.mirrorsbackend.entities.password_reset_token.PasswordResetTokenService;
 import com.mirrors.mirrorsbackend.utils.EmailSender;
 import com.mirrors.mirrorsbackend.utils.PasswordValidator;
-import com.mirrors.mirrorsbackend.utils.security.PasswordEncoder;
+import com.mirrors.mirrorsbackend.utils.config.PasswordEncoder;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

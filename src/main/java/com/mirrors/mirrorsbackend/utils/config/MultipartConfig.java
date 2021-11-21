@@ -1,19 +1,21 @@
-package com.mirrors.mirrorsbackend.utils.security;
+package com.mirrors.mirrorsbackend.utils.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.nio.charset.StandardCharsets;
 
-public class MultipartConfiguration {
+@Configuration
+public class MultipartConfig {
     @Bean
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        int mbInBytes = 1_048_576;
         resolver.setDefaultEncoding(StandardCharsets.UTF_8.displayName());
-        resolver.setMaxUploadSize(mbInBytes * 4 * 8);
-        resolver.setMaxUploadSizePerFile(mbInBytes * 4);
+        resolver.setMaxUploadSize(-1);
+        resolver.setMaxUploadSizePerFile(-1);
+        resolver.setMaxInMemorySize(-1);
         return resolver;
     }
 }

@@ -34,3 +34,6 @@ build/
 
 ### Error Logs ###
 src/main/resources/static/error/*
+
+### Post Images ###
+src/main/resources/media

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.marketplace_user;
+package com.mirrors.mirrorsbackend.entities.marketplace_user;
 
 import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
 import lombok.*;

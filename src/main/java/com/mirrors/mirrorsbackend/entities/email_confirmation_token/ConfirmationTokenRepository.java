@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.email_confirmation_token;
+package com.mirrors.mirrorsbackend.entities.email_confirmation_token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

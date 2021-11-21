@@ -1,43 +1,35 @@
 package com.mirrors.mirrorsbackend.mvc.settings;
 
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUser;
-import com.mirrors.mirrorsbackend.marketplace_user.MarketplaceUserRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_post.MarketplacePostRepository;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
+import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserRepository;
 import com.mirrors.mirrorsbackend.mvc.settings.request.*;
 import lombok.AllArgsConstructor;
+import org.dom4j.rule.Mode;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/settings")
 public class SettingsController {
 
-    private final MarketplaceUserRepository marketplaceUserRepository;
     private final SettingsService settingsService;
 
     @GetMapping
     public ModelAndView settingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
-        loadSettingsPage(user, model);
+        settingsService.loadSettingsPage(user, model);
         return new ModelAndView("/settings");
     }
 
     @GetMapping({"/personal", "/password", "/phone", "/address", "/clear"})
     public ModelAndView redirectToSettingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
-        loadSettingsPage(user, model);
+        settingsService.loadSettingsPage(user, model);
         return new ModelAndView("redirect:/settings");
-    }
-
-    private void loadSettingsPage(@AuthenticationPrincipal MarketplaceUser user, Model model) {
-        Optional<MarketplaceUser> optionalUser = marketplaceUserRepository.findByEmail(user.getEmail());
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-            model.addAttribute("user", user);
-        } else throw new IllegalStateException("Couldn't load settings!");
     }
 
     @PostMapping("/personal")
@@ -72,5 +64,8 @@ public class SettingsController {
         };
     }
 
-
+    @PostMapping("/delete-account")
+    public ModelAndView deleteAccount(@AuthenticationPrincipal MarketplaceUser user) {
+        return settingsService.deleteAccount(user);
+    }
 }

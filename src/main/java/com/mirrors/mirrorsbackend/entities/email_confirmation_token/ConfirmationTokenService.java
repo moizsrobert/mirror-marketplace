@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.email_confirmation_token;
+package com.mirrors.mirrorsbackend.entities.email_confirmation_token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

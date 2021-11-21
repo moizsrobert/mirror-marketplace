@@ -28,6 +28,16 @@
         Settings saved.
     </div>
 
+    <div id="user-posts">
+        <h2>Posts</h2>
+        <div class="post" th:each="post : ${posts}">
+            <a th:href="@{'/post?id=' + ${post.getPostId()}}" th:text="${post.getPostName()}"></a>
+        </div>
+        <div class="empty" th:if="${#lists.isEmpty(posts)}">
+            <h3>No posts yet.</h3>
+        </div>
+    </div>
+
     <div class="form-content">
         <div class="form-items">
             <form th:action="@{/settings/personal}" method="POST">
@@ -49,7 +59,8 @@
                 </div>
             </form>
             <form th:action="@{/settings/clear}" method="POST">
-                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PERSONAL_INFO}">
+                <input class="form-control" type="hidden" name="value"
+                       th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PERSONAL_INFO}">
                 <div class="form-button">
                     <button class="ibtn" type="submit">Clear</button>
                 </div>
@@ -79,7 +90,6 @@
         </div>
     </div>
 
-
     <div class="form-content">
         <div class="form-items">
             <form th:action="@{/settings/phone}" method="POST">
@@ -93,7 +103,8 @@
                 </div>
             </form>
             <form th:action="@{/settings/clear}" method="POST">
-                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PHONE_NUMBER}">
+                <input class="form-control" type="hidden" name="value"
+                       th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).PHONE_NUMBER}">
                 <div class="form-button">
                     <button class="ibtn" type="submit">Clear</button>
                 </div>
@@ -130,9 +141,21 @@
                 </div>
             </form>
             <form th:action="@{/settings/clear}" method="POST">
-                <input class="form-control" type="hidden" name="value" th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).SHIPPING_ADDRESS}">
+                <input class="form-control" type="hidden" name="value"
+                       th:value="${T(com.mirrors.mirrorsbackend.mvc.settings.SettingValueEnum).SHIPPING_ADDRESS}">
                 <div class="form-button">
                     <button class="ibtn" type="submit">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="form-content">
+        <div class="form-items">
+            <form th:action="@{/settings/delete-account}" method="POST">
+                <h2>Delete account</h2>
+                <div class="form-button">
+                    <button class="ibtn" type="submit" style="color: darkred">Delete</button>
                 </div>
             </form>
         </div>
