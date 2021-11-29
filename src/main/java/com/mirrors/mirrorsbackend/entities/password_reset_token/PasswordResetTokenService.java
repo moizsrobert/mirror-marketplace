@@ -16,7 +16,7 @@ public class PasswordResetTokenService {
     }
 
     public Optional<PasswordResetToken> getToken(String token) {
-        return passwordResetTokenRepository.findByToken(token);
+        return passwordResetTokenRepository.findById(token);
     }
 
     public void setConfirmedAt(String token) {

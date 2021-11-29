@@ -17,11 +17,11 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public ModelAndView register(RegistrationRequest request) {
-        return registrationService.register(request);
+    public void register(RegistrationRequest request) {
+        registrationService.register(request);
     }
 
-    @GetMapping("confirm")
+    @GetMapping("/confirm")
     public ModelAndView confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }

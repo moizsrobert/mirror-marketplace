@@ -48,14 +48,21 @@ public class ImageStorageService implements ImageStorage {
     }
 
     @Override
-    public List<File> load(String dirName) {
+    public List<String> loadPaths(String dirName) {
         pathBuilder = new StringBuilder(path);
         pathBuilder.append(dirName);
         File dir = new File(String.valueOf(pathBuilder));
-        if (dir.listFiles() == null)
-            return Collections.emptyList();
-        else
-            return Arrays.stream(dir.listFiles()).toList();
+        List<String> paths = new ArrayList<>();
+
+        if (dir.exists() && dir.listFiles() != null) {
+            for (var file : dir.listFiles())
+                paths.add("/media/" + dirName + "/" + file.getName());
+        }
+
+        if (paths.isEmpty())
+            paths.add("/img/no-image.jpg");
+
+        return paths;
     }
 
     @Override

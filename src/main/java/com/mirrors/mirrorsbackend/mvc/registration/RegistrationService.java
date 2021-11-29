@@ -1,7 +1,7 @@
 package com.mirrors.mirrorsbackend.mvc.registration;
 
 import com.mirrors.mirrorsbackend.exception.TokenException;
-import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
+import com.mirrors.mirrorsbackend.mvc.profile.CountryEnum;
 import com.mirrors.mirrorsbackend.utils.EmailSender;
 import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
 import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUserRole;
@@ -11,6 +11,7 @@ import com.mirrors.mirrorsbackend.entities.email_confirmation_token.Confirmation
 import com.mirrors.mirrorsbackend.utils.EmailValidator;
 import com.mirrors.mirrorsbackend.utils.PasswordValidator;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +28,8 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public ModelAndView register(RegistrationRequest request) {
+    @SneakyThrows
+    public void register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
         if (!isValidEmail)
             throw new IllegalStateException("Email is invalid!");
@@ -51,10 +53,8 @@ public class RegistrationService {
         marketplaceUser.setCountry(CountryEnum.NOTHING_SELECTED);
 
         String token = marketplaceUserService.signUpUser(marketplaceUser);
-        String link = "http://www.localhost:8080/api/registration/confirm?token=" + token;
+        String link = "http://46.107.88.215:8080/api/registration/confirm?token=" + token;
         emailSender.send(request.getEmail(), "Confirm your marketplace email", buildEmail(link));
-
-        return new ModelAndView("redirect:/api/login?registration_successful");
     }
 
     @Transactional
@@ -74,7 +74,7 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        marketplaceUserService.enableMarketplaceUser(confirmationToken.getMarketplaceUser().getEmail());
+        marketplaceUserService.enableUser(confirmationToken.getMarketplaceUser().getEmail());
         return new ModelAndView("redirect:/api/login?email_confirmed");
     }
 

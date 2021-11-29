@@ -3,6 +3,7 @@ package com.mirrors.mirrorsbackend.entities.marketplace_post;
 import lombok.Getter;
 
 public enum CategoryEnum {
+    NOTHING_SELECTED("Select a category..."),
     CLASSIFIEDS("Classifieds"),
     CLOTHING_AND_ACCESSORIES("Clothing and Accessories"),
     ELECTRONICS("Electronics"),

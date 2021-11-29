@@ -9,7 +9,7 @@ public interface ImageStorage {
 
     void save(String dirName, MultipartFile image, short fileName);
 
-    List<File> load(String dirName);
+    List<String> loadPaths(String dirName);
 
     void delete(String dirName);
 }

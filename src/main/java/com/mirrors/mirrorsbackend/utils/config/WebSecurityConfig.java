@@ -32,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .formLogin()
                     .loginPage("/api/login")
-                    .failureUrl("/api/login-failure")
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .loginProcessingUrl("/api/login")

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.settings.request;
+package com.mirrors.mirrorsbackend.mvc.profile.request;
 
 import lombok.*;
 

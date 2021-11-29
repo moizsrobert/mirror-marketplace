@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.entities.marketplace_user;
 
-import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
+import com.mirrors.mirrorsbackend.mvc.profile.CountryEnum;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,11 +12,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @NoArgsConstructor
 @Entity
 public class MarketplaceUser implements UserDetails {
-
     @Id
     @Column(columnDefinition = "VARCHAR(36)")
     private String id = UUID.randomUUID().toString();
@@ -39,10 +37,6 @@ public class MarketplaceUser implements UserDetails {
     private CountryEnum country;
     @Column(columnDefinition = "VARCHAR(85)")
     private String city;
-    @Column(columnDefinition = "VARCHAR(60)")
-    private String streetAddress;
-    @Column(columnDefinition = "VARCHAR(8)")
-    private String zipCode;
 
     private boolean locked = false;
     private boolean enabled = false;

@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.settings.request;
+package com.mirrors.mirrorsbackend.mvc.password_reset;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -7,9 +7,10 @@ import lombok.ToString;
 
 @Getter
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString
-public class PasswordRequest extends SettingRequest {
-    private final String oldPassword;
+public class PasswordResetRequest {
     private final String password;
     private final String confirmPassword;
+    private final String token;
 }

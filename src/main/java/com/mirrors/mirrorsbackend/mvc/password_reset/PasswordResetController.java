@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.login.password_reset;
+package com.mirrors.mirrorsbackend.mvc.password_reset;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +17,8 @@ public class PasswordResetController {
     }
 
     @PostMapping("/forgot")
-    public ModelAndView resetPassword(String email) {
-        return loginService.sendPasswordResetEmail(email);
+    public void resetPassword(String email) {
+        loginService.sendPasswordResetEmail(email);
     }
 
     @GetMapping("/reset-password")
@@ -27,7 +27,7 @@ public class PasswordResetController {
     }
 
     @PostMapping(value = "/reset-password")
-    public ModelAndView passwordReset(PasswordResetRequest passwordResetRequest) {
-        return loginService.changePassword(passwordResetRequest);
+    public void passwordReset(PasswordResetRequest passwordResetRequest) {
+        loginService.changePassword(passwordResetRequest);
     }
 }

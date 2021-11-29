@@ -1,33 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Home - Mirror</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/fontawesome-all.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/theme.css}">
+    <link href="/css/design.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
+
 <body>
+
 <header>
-    <div>
-        <a class="selected" th:href="@{home}">Home</a>
-        <a th:href="@{new-post}">New Post</a>
-        <a th:href="@{settings}">Profile</a>
-        <a th:href="@{/api/logout}">Logout</a>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img alt="site logo" src="/img/logo.png" height="50px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" aria-current="page" href="#"
+                       onclick="showProfileForm('personalInfoForm')" data-bs-target="#profileModal"
+                       data-bs-toggle="modal" type="button">Profile</a>
+                    <a class="nav-link" href="#" onclick="showPostBox('myPostsBox')" data-bs-target="#postModal"
+                       data-bs-toggle="modal" type="button">Posts</a>
+                    <a class="nav-link ml-auto" href="/api/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 </header>
 
 <main>
-    <div class="alert alert-danger text-center" th:if="${session.error}"
-         th:text="${session.error.getMessage()}"></div>
-    <span th:if="${session.exceptionConsumer}" th:text="${session.exceptionConsumer.consume()}"></span>
+
+    <!-- Random posztok / Főoldal -->
+
+    <div id="home" class="d-block">
+        Home
+    </div>
+
+    <!-- Keresés eredmények -->
+
+    <div id="search">
+
+    </div>
+
+    <!-- Poszt -->
+
+    <div id="displayed-post" class="pt-5 m-auto d-flex flex-wrap d-none d-block displayed-box">
+
+        <div class="w-100 mb-2">
+            <button onclick="showStage('home')" type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-arrow-left" viewBox="1 3 12 12">
+                    <path fill-rule="evenodd"
+                          d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="displayed-post-image-wrapper">
+            <img alt="Post's image" id="displayed-post-image">
+        </div>
+
+        <div class="d-flex flex-column px-4 displayed-post-details">
+            <h2 class="mb-0" id="displayed-post-name"></h2>
+            <h5 class="mb-3" id="displayed-post-seller-name">By: </h5>
+            <h5 class="mb-2" id="displayed-post-country">Ships from:</h5>
+            <p class="mb-2 overflow-auto w-75" id="displayed-post-description">
+            </p>
+            <h3 id="displayed-post-price">50.00$</h3>
+            <div class="">
+                <button id="contact-btn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#contact-modal">Contact
+                    <button id="watchlist-btn" type="button" class="btn btn-outline-dark d-block">Watchlist</button>
+                </button>
+                <button id="delete-post-btn" type="button" class="btn btn-outline-danger d-none">Delete</button>
+                <button id="ban-user-btn" type="button" class="btn btn-outline-warning d-none">Ban User</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="contact-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Seller's contacts</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h3 id="contact-name" class="d-block"></h3>
+                    <h3 id="contact-email"></h3>
+                    <h3 id="contact-phone" class="d-block"></h3>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
-<script th:src="@{/js/jquery.js}"></script>
-<script th:src="@{/js/popper.js}"></script>
-<script th:src="@{/js/bootstrap.js}"></script>
-<script th:src="@{/js/main.js}"></script>
+
+<footer>
+
+</footer>
+
+<!-- Profil Beállítások -->
+
+<div aria-hidden="true" aria-labelledby="profileModal" class="modal fade" id="profileModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Profile Settings</h4>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div id="profile-error" class="alert alert-danger text-center d-none d-block"></div>
+            <div id="profile-success" class="alert alert-success text-center d-none d-block">Information saved!</div>
+
+            <div class="modal-body d-flex">
+
+                <form th:action="@{/profile/personal}" method="post" id="personalInfoForm"
+                      class="w-50 d-flex flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="display-name"
+                               name="displayName"
+                               placeholder="Display name"
+                               type="text" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="first-name" name="firstName"
+                               placeholder="First name" type="text" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="last-name" name="lastName"
+                               placeholder="Last name" type="text" required>
+                    </div>
+                    <div class="d-flex justify-content-around w-50">
+                        <button class="btn btn-primary" id="savePersonalInfo" type="submit">Save</button>
+                        <button class="btn btn-danger" form="clearPersonalInfoForm">Clear</button>
+                    </div>
+                </form>
+
+                <form th:action="@{/profile/clear}" method="post" id="clearPersonalInfoForm" class="d-none">
+                    <input th:value="${T(com.mirrors.mirrorsbackend.mvc.profile.ProfileSettingEnum).PERSONAL_INFO}"
+                           name="value" type="hidden">
+                </form>
+
+                <form th:action="@{/profile/password}" method="post" id="passwordForm"
+                      class="w-50 d-none flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="old-password" name="oldPassword" placeholder="Old password"
+                               type="password" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="new-password" name="password" placeholder="New password"
+                               type="password" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="confirm-password" name="confirmPassword"
+                               placeholder="Confirm new password"
+                               type="password" required>
+                    </div>
+                    <button class="btn btn-primary" id="savePassword" type="submit">Save</button>
+                </form>
+
+                <form th:action="@{/profile/phone}" method="post" id="phoneNumberForm"
+                      class="w-50 d-none flex-column align-items-center d-print-none">
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="phone-number"
+                               name="phoneNumber" placeholder="Phone number" type="tel" required>
+                    </div>
+                    <div class="d-flex justify-content-around w-50">
+                        <button class="btn btn-primary" id="savePhoneNumber" type="submit">Save</button>
+                        <button class="btn btn-danger" form="clearPhoneNumberForm">Clear</button>
+                    </div>
+                </form>
+
+                <form th:action="@{/profile/clear}" method="post" id="clearPhoneNumberForm" class="d-none">
+                    <input th:value="${T(com.mirrors.mirrorsbackend.mvc.profile.ProfileSettingEnum).PHONE_NUMBER}"
+                           name="value" type="hidden">
+                </form>
+
+                <form th:action="@{/profile/address}" method="post" id="shippersAddressForm"
+                      class="w-50 d-none flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <select id="country" name="country" class="form-select">
+                            <option th:each="country : ${T(com.mirrors.mirrorsbackend.mvc.profile.CountryEnum).values()}"
+                                    th:value="${country}"
+                                    th:text="${country.displayName}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="city" name="city"
+                               placeholder="City"
+                               type="text" required>
+                    </div>
+                    <div class="d-flex justify-content-around w-50">
+                        <button class="btn btn-primary" id="saveShippersAddress" type="submit">Save</button>
+                        <button class="btn btn-danger" form="clearShippersAddressForm">Clear</button>
+                    </div>
+                </form>
+
+                <form th:action="@{/profile/clear}" method="post" id="clearShippersAddressForm" class="d-none">
+                    <input th:value="${T(com.mirrors.mirrorsbackend.mvc.profile.ProfileSettingEnum).SHIPPING_ADDRESS}"
+                           name="value" type="hidden">
+                </form>
+
+                <form th:action="@{/profile/delete-account}" method="post" id="deleteAccountForm"
+                      class="w-50 d-none flex-column align-items-center">
+                    <div class="input-group mb-3">
+                        <input class="form-control" id="delete-password" name="deleteRequest" placeholder="Password"
+                               type="password">
+                    </div>
+                    <button class="btn btn-danger" id="delete" type="submit">Delete</button>
+                </form>
+
+                <div id="modal-nav-profile" class="w-50 d-flex justify-content-center">
+                    <div class="w-50 d-flex flex-column">
+                        <button class="btn btn-primary mb-2" id="personalInfo"
+                                onclick="showProfileForm('personalInfoForm')"
+                                type="button">Personal Info
+                        </button>
+                        <button class="btn btn-outline-primary mb-2" id="password"
+                                onclick="showProfileForm('passwordForm')"
+                                type="button">Change Password
+                        </button>
+                        <button class="btn btn-outline-primary mb-2" id="phoneNumber"
+                                onclick="showProfileForm('phoneNumberForm')" type="button">Phone Number
+                        </button>
+                        <button class="btn btn-outline-primary mb-2" id="shippersAddress"
+                                onclick="showProfileForm('shippersAddressForm')" type="button">Shipper Address
+                        </button>
+                        <button class="btn btn-outline-danger" id="deleteAccount"
+                                onclick="showProfileForm('deleteAccountForm')" type="button">Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Új Poszt / Saját posztok / Mentett posztok -->
+
+<div aria-hidden="true" aria-labelledby="postModal" class="modal fade" id="postModal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Posts</h4>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+
+            <div id="post-error" class="alert alert-danger text-center d-none d-block"></div>
+            <div id="post-success" class="alert alert-success text-center d-none d-block"></div>
+
+            <div class="modal-body d-flex">
+
+                <div id="myPostsBox"
+                     class="w-50 d-flex flex-column align-items-center justify-content-between overflow-auto"
+                     style="min-height: 332px; max-height: 332px;">
+
+                </div>
+
+                <div id="savedPostsBox"
+                     class="w-50 d-flex flex-column align-items-center justify-content-between overflow-auto"
+                     style="min-height: 332px; max-height: 332px;">
+
+                </div>
+
+                <div id="newPostBox" class="w-50 d-none">
+                    <form th:action="@{/posts/new-post}" enctype="multipart/form-data" method="post" id="newPostForm"
+                          class="d-flex flex-column align-items-center">
+
+                        <div class="input-group mb-3">
+                            <input type="text" id="post-name" class="form-control" name="postName" placeholder="Title"
+                                   aria-label="Amount" value="" required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">USD</span>
+                            <input type="number" id="post-price" min="0.00" step="0.01" class="form-control"
+                                   name="postPrice" placeholder="0.00"
+                                   aria-label="Amount" value="" required>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <select class="form-select" id="category" name="postCategory">
+                                <option th:each="category : ${T(com.mirrors.mirrorsbackend.entities.marketplace_post.CategoryEnum).values()}"
+                                        th:value="${category}"
+                                        th:text="${category.displayName}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <textarea class="form-control" style="resize: none" id="post-description"
+                                      name="postDescription" placeholder="Description (optional)"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="form-control" id="post-images" name="postImages"
+                                       accept="image/png, image/jpeg" form="newPostForm" multiple>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center w-50">
+                            <button class="btn btn-primary" id="submitNewPost" type="submit">Post</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="model-nav-post" class="w-50 d-flex justify-content-center">
+                    <div class="w-50 d-flex flex-column">
+                        <button class="btn btn-primary mb-2" id="myPosts" onclick="showPostBox('myPostsBox')"
+                                type="button">My Posts
+                        </button>
+                        <button class="btn btn-primary mb-2" id="savedPosts" onclick="showPostBox('savedPostsBox')"
+                                type="button">Saved Posts
+                        </button>
+                        <button class="btn btn-outline-primary mb-2" id="newPost"
+                                onclick="showPostBox('newPostBox')"
+                                type="button">New Post
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script src="/js/profile.js"></script>
+<script src="/js/posts.js"></script>
 </html>

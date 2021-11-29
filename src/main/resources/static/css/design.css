@@ -1,127 +1,33 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+.card-img-top {
+    height: 15vh !important;
+    object-fit: cover !important;
 }
 
-html, body {
-    background-color: #0093FF;
-    color: #fff;
+.displayed-box {
+    max-width: 1280px;
 }
 
-a,
-a:hover{
-    color: inherit;
-    text-decoration: none;
+.displayed-post-image-wrapper {
+    height: 350px;
+    width: 40%;
 }
 
-header {
-    background-color: #000;
-    opacity: .75;
-    margin-bottom: 20px;
+#displayed-post-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
-header div {
-    display: flex;
-    justify-content: center;
+.displayed-post-details {
+    height: 350px;
+    width: 60%;
 }
 
-header div a {
-    font-size: 24px;
-    margin-right: 15px;
+#displayed-post-price {
+    margin-top: auto;
 }
 
-header div a:last-child {
-    margin-right: 0;
-}
-
-header div a.selected {
-    color: #71dd8a;
-}
-
-.form-items {
-    margin-bottom: 50px;
-}
-
-.form-content {
-    margin: 0 auto;
-}
-
-main form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-main form h2 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.form-content {
-    display: flex;
-    justify-content: center;
-}
-
-#user-posts {
-    margin: 0 auto 50px;
-    text-align: center;
-}
-
-#user-posts a {
-    color: #71dd8a;
-    font-size: 20px;
-}
-
-#post {
-    margin: 50px auto 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#post-name {
-    font-size: 35px;
-}
-
-#post-image {
-    width: 500px;
-}
-
-#post-price {
-    font-size: 25px;
-}
-
-#post-description {
-    font-size: 18px;
-}
-
-#post-seller {
-    font-size: 22px;
-}
-
-#post-seller-email {
-    font-size: 20px;
-}
-
-#post-seller-phone {
-    font-size: 20px;
-}
-
-input[name="postDescription"] {
-    height: 200px;
-    !important
-    width: 400px;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance: textfield;
+#displayed-post-description {
+    height: 155px;
+    text-align: justify;
 }

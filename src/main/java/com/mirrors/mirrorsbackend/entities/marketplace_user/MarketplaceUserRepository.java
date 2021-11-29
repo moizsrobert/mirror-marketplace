@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.entities.marketplace_user;
 
-import com.mirrors.mirrorsbackend.mvc.settings.CountryEnum;
+import com.mirrors.mirrorsbackend.mvc.profile.CountryEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,6 +19,11 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
     @Modifying
     @Query("UPDATE MarketplaceUser u SET u.enabled = TRUE WHERE u.email = ?1")
     void enableMarketplaceUser(String email);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE MarketplaceUser u SET u.enabled = FALSE WHERE u.id = ?1")
+    void disableMarketplaceUser(String userId);
 
     @Transactional
     @Modifying
@@ -45,9 +50,7 @@ public interface MarketplaceUserRepository extends JpaRepository<MarketplaceUser
     @Modifying
     @Query("UPDATE MarketplaceUser u SET " +
             "u.country = ?1, " +
-            "u.city = ?2, " +
-            "u.streetAddress = ?3, " +
-            "u.zipCode = ?4 " +
-            "WHERE u.id = ?5")
-    void changeShippingAddress(CountryEnum country, String city, String streetAddress, String zipCode, String id);
+            "u.city = ?2 " +
+            "WHERE u.id = ?3")
+    void changeShippingAddress(CountryEnum country, String city, String id);
 }

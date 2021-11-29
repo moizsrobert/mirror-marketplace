@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.settings;
+package com.mirrors.mirrorsbackend.mvc.profile;
 
 import lombok.Getter;
 

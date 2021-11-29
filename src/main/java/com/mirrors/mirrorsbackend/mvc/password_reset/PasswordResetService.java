@@ -1,4 +1,4 @@
-package com.mirrors.mirrorsbackend.mvc.login.password_reset;
+package com.mirrors.mirrorsbackend.mvc.password_reset;
 
 import com.mirrors.mirrorsbackend.exception.TokenException;
 import com.mirrors.mirrorsbackend.entities.marketplace_user.MarketplaceUser;
@@ -26,7 +26,7 @@ public class PasswordResetService {
     private final PasswordResetTokenService passwordResetTokenService;
     private final EmailSender emailSender;
 
-    public ModelAndView sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(String email) {
         MarketplaceUser marketplaceUser;
 
         if (marketplaceUserRepository.findByEmail(email).isPresent())
@@ -35,10 +35,8 @@ public class PasswordResetService {
             throw new IllegalStateException("Email not found!");
 
         String token = marketplaceUserService.createPasswordResetToken(marketplaceUser);
-        String link = "http://www.localhost:8080/api/reset-password?token=" + token;
+        String link = "http://46.107.88.215:8080/api/reset-password?token=" + token;
         emailSender.send(email, "Reset your marketplace password", buildEmail(link));
-
-        return new ModelAndView("redirect:/api/login?reset_email_sent");
     }
 
     @Transactional
@@ -61,7 +59,7 @@ public class PasswordResetService {
         return new ModelAndView("/api/reset-password");
     }
 
-    public ModelAndView changePassword(PasswordResetRequest passwordResetRequest) {
+    public void changePassword(PasswordResetRequest passwordResetRequest) {
         PasswordResetToken passwordResetToken = passwordResetTokenService
                 .getToken(passwordResetRequest.getToken())
                 .orElseThrow(() -> new TokenException("Token not found!", passwordResetRequest.getToken()));
@@ -95,7 +93,6 @@ public class PasswordResetService {
 
         SecurityContextHolder.getContext().setAuthentication(null);
         SecurityContextHolder.clearContext();
-        return new ModelAndView("redirect:/api/login?password_changed");
     }
 
     private String buildEmail(String link) {
