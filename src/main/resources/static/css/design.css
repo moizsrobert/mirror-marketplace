@@ -1,9 +1,9 @@
-.card-img-top {
+#postModal .card-img-top {
     height: 15vh !important;
     object-fit: cover !important;
 }
 
-.displayed-box {
+main {
     max-width: 1280px;
 }
 
@@ -30,4 +30,48 @@
 #displayed-post-description {
     height: 155px;
     text-align: justify;
+}
+
+main .card-box {
+    height: 400px;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 0 10px 0 #c5c5c5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    float: left;
+    border-radius: 10px;
+    transition: background-color .25s, opacity .25s;
+}
+
+main .card-box .card-thumbnail {
+    height: 200px;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: 1s;
+}
+
+main .card-box h3 {
+    max-height: 34px;
+    overflow: hidden;
+}
+
+main .card-box .card-img-top {
+    height: 100%;
+    object-fit: cover;
+}
+
+main p.text-secondary {
+    height: 50px;
+    overflow: hidden;
+}
+
+main .card-box:hover {
+    background-color: rgb(235, 235, 235);
+    opacity: 0.95;
+}
+
+#image-modal .modal-dialog {
+    max-width: none !important;
 }

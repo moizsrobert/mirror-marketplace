@@ -6,14 +6,14 @@ import java.io.IOException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(RuntimeException.class)
-    public void handleConflict(RuntimeException error,
+    @ExceptionHandler(MarketplaceException.class)
+    public void handleConflict(MarketplaceException exception,
                                HttpServletResponse response) throws IOException {
-        error.printStackTrace();
-        ExceptionLogger.logException(error);
+        exception.printStackTrace();
+        MarketplaceExceptionLogger.getInstance().logException(exception);
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().write(error.getMessage());
-        if (error instanceof TokenException)
+        response.getWriter().write(exception.getMessage());
+        if (exception instanceof TokenException)
             response.sendRedirect("/api/login?token_error");
     }
 }

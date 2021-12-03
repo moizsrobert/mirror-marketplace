@@ -1,6 +1,6 @@
 package com.mirrors.mirrorsbackend.exception;
 
-public class TokenException extends RuntimeException {
+public class TokenException extends MarketplaceException {
 
     @XMLPresence
     private final String tokenAttempt;
