@@ -3,6 +3,7 @@
 Egyszerűen kezelhető online piactér minimális átirányítással.
 
 Backend (Spring Boot) & DB (MySQL)
+
 Adatbázis inicializálása:
 
 A backend MySQL adatbázissal működik, innen letölthető:
